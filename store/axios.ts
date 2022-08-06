@@ -1,5 +1,5 @@
-import _ from 'lodash';
 import axios, { AxiosInstance } from 'axios';
+import _ from 'lodash';
 import { AppDispatch } from '.';
 import { ResourceName } from '../utils/interfaces';
 import { overwriteResource, setResource, updateResource } from './actions/resources';

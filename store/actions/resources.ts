@@ -1,6 +1,6 @@
-import axios from '../axios';
-import { ResourceName, ResourceMap } from '../../utils/interfaces';
 import { AppDispatch } from '..';
+import { ResourceMap, ResourceName } from '../../utils/interfaces';
+import axios from '../axios';
 import { Payload, Payloads } from '../reducers/resources';
 
 export const setResource = <T extends ResourceName>(

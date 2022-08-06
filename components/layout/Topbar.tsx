@@ -1,5 +1,5 @@
+import { Flex, Image, Stack, Text, useDisclosure } from '@chakra-ui/react';
 import React from 'react';
-import { Image, Text, Flex, Stack, useDisclosure } from '@chakra-ui/react';
 import { FiEdit2 } from 'react-icons/fi';
 import { VscKey } from 'react-icons/vsc';
 import LoginModal from '../modals/LoginModal';
