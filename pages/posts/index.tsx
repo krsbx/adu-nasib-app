@@ -1,11 +1,11 @@
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import AllPost from '../components/posts/AllPost';
-import { getAllData as _getAllData } from '../store/actions/resources';
-import { RESOURCE_NAME } from '../utils/constant';
+import AllPost from '../../components/posts/AllPost';
+import { getAllData as _getAllData } from '../../store/actions/resources';
+import { RESOURCE_NAME } from '../../utils/constant';
 
-const HomePage = ({ getAllData }: Props) => {
+const PostsPage = ({ getAllData }: Props) => {
   const router = useRouter();
 
   useEffect(() => {
@@ -28,4 +28,4 @@ const connector = connect(null, {
 
 type Props = ConnectedProps<typeof connector>;
 
-export default connector(HomePage);
+export default connector(PostsPage);

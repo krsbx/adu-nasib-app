@@ -21,13 +21,7 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import { VscKey } from 'react-icons/vsc';
-import z from 'zod';
-
-const schema = z.object({
-  username: z.string().min(5),
-  email: z.string().email(),
-  password: z.string().trim().min(1),
-});
+import { registerSchema } from '../../utils/schema';
 
 const RegisterModal = ({ isOpen, onClose, onLoginOpen }: Props) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -35,8 +29,8 @@ const RegisterModal = ({ isOpen, onClose, onLoginOpen }: Props) => {
     register,
     handleSubmit,
     formState: { errors, touchedFields: touched },
-  } = useForm<typeof schema['shape']>({
-    resolver: zodResolver(schema),
+  } = useForm<typeof registerSchema['shape']>({
+    resolver: zodResolver(registerSchema),
   });
 
   return (
@@ -67,6 +61,7 @@ const RegisterModal = ({ isOpen, onClose, onLoginOpen }: Props) => {
                   <Input
                     {...register('username')}
                     name={'username'}
+                    variant="filled"
                     placeholder="Masukan username..."
                   />
                 </InputGroup>
@@ -79,6 +74,7 @@ const RegisterModal = ({ isOpen, onClose, onLoginOpen }: Props) => {
                     {...register('email')}
                     type={'email'}
                     name={'email'}
+                    variant="filled"
                     placeholder="Masukan email..."
                   />
                 </InputGroup>
@@ -91,6 +87,7 @@ const RegisterModal = ({ isOpen, onClose, onLoginOpen }: Props) => {
                     {...register('password')}
                     type={isPasswordVisible ? 'text' : 'password'}
                     name={'password'}
+                    variant="filled"
                     placeholder="Masukan kata sandi..."
                   />
                   <InputRightElement
