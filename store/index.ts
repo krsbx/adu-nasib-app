@@ -1,7 +1,7 @@
-import { createStore, compose, combineReducers, applyMiddleware } from 'redux';
+import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import thunk from 'redux-thunk';
-import * as reducers from './reducers';
 import { applyInterceptors } from './axios';
+import * as reducers from './reducers';
 
 const rootReducer = combineReducers(reducers);
 const composeEnhancers =

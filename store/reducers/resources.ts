@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { combineReducers } from 'redux';
 import { RESOURCE_NAME } from '../../utils/constant';
-import { ResourceStructure, ResourceMap, ResourceName } from '../../utils/interfaces';
+import { ResourceMap, ResourceName, ResourceStructure } from '../../utils/interfaces';
 import { hasOwnProperty } from '../../utils/typeHelper';
 
 const defaultState = {

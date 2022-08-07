@@ -1,6 +1,6 @@
 import {
-  AxiosRequestHeaders as OriginalAxiosRequestHeaders,
   AxiosRequestConfig as OriginalAxiosRequestConfig,
+  AxiosRequestHeaders as OriginalAxiosRequestHeaders,
 } from 'axios';
 import { ResourceName } from '../utils/interfaces';
 

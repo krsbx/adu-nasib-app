@@ -1,27 +1,27 @@
 import {
   Button,
   Flex,
-  Modal,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  ModalContent,
-  ModalOverlay,
-  Text,
-  Input,
-  InputGroup,
   FormControl,
   FormErrorMessage,
-  InputRightElement,
-  Stack,
   FormLabel,
+  Input,
+  InputGroup,
+  InputRightElement,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
+  Stack,
+  Text,
 } from '@chakra-ui/react';
-import React, { useState } from 'react';
-import z from 'zod';
-import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { VscKey } from 'react-icons/vsc';
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
+import { VscKey } from 'react-icons/vsc';
+import z from 'zod';
 
 const schema = z.object({
   email: z.string().email(),
