@@ -23,10 +23,11 @@ export type User = {
 
 export type Post = {
   id: number;
-  content: number;
+  content: string;
   userId: number;
   createdAt: string;
   updatedAt: string;
+  user?: User;
 };
 
 export type Comment = {
@@ -36,6 +37,7 @@ export type Comment = {
   userId: number;
   createdAt: string;
   updatedAt: string;
+  user?: User;
 };
 
 export type ResourceMap = {
