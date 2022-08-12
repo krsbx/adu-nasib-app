@@ -2,9 +2,10 @@ import { Box, Flex, Link as ChakraLink, Text } from '@chakra-ui/react';
 import moment from 'moment';
 import NextLink from 'next/link';
 import React from 'react';
-import { Comment } from '../../utils/interfaces';
+import { RESOURCE_NAME } from '../../../utils/constant';
+import { ResourceMap } from '../../../utils/interfaces';
 
-const CommentAduan = ({ comment }: Props) => {
+const Comment = ({ comment }: Props) => {
   const createdAt = moment(comment?.createdAt).format('DD MMMM YYYY');
   const filter = moment(comment?.createdAt);
   const parseDate = (date: moment.Moment) => date.format('YYYY-MM-DD');
@@ -76,7 +77,7 @@ const CommentAduan = ({ comment }: Props) => {
 };
 
 type Props = {
-  comment: Comment | null | undefined;
+  comment: ResourceMap[typeof RESOURCE_NAME.COMMENT] | null | undefined;
 };
 
-export default CommentAduan;
+export default Comment;

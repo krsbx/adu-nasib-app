@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { CommentAduan, CommentNgadu, Thread } from '../../../components/general';
+import { Comment, Post } from '../../../components/general';
 import { AppState } from '../../../store';
 import {
   getAllData as _getAllData,
@@ -11,13 +11,13 @@ import {
 } from '../../../store/actions/resources';
 import { getResources } from '../../../store/selector/resources';
 import { RESOURCE_NAME } from '../../../utils/constant';
-import { Post } from '../../../utils/interfaces';
+import { ResourceMap } from '../../../utils/interfaces';
 
 const PostPage = ({ getDataById, getAllData, comments }: Props) => {
   const router = useRouter();
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const postId = +router.query.id!;
-  const [post, setPost] = useState<Post | null>(null);
+  const [post, setPost] = useState<ResourceMap[typeof RESOURCE_NAME.POST] | null>(null);
   const [page, setPage] = useState(1);
 
   useEffect(() => {
@@ -25,7 +25,7 @@ const PostPage = ({ getDataById, getAllData, comments }: Props) => {
 
     (async () => {
       const post = await getDataById(RESOURCE_NAME.POST, postId);
-      setPost(post as Post);
+      setPost(post as ResourceMap[typeof RESOURCE_NAME.POST]);
     })();
   }, [router.isReady]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -40,11 +40,11 @@ const PostPage = ({ getDataById, getAllData, comments }: Props) => {
   return (
     <Flex width={'100%'} direction={'column'} alignItems={'center'} p={5} gap={5}>
       <Stack spacing={4}>
-        <Thread post={post} />
+        <Post.Post post={post} />
         {_.map(comments.rows, (comment) => (
-          <CommentAduan comment={comment} key={comment.id} />
+          <Comment.Comment comment={comment} key={comment.id} />
         ))}
-        <CommentNgadu />
+        <Comment.CommentField />
       </Stack>
     </Flex>
   );

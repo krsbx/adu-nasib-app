@@ -2,9 +2,10 @@ import { Box, Flex, Link as ChakraLink, Text } from '@chakra-ui/react';
 import moment from 'moment';
 import NextLink from 'next/link';
 import React from 'react';
-import { Post } from '../../utils/interfaces';
+import { RESOURCE_NAME } from '../../../utils/constant';
+import { ResourceMap } from '../../../utils/interfaces';
 
-const Thread = ({ post }: Props) => {
+const PostField = ({ post }: Props) => {
   const createdAt = moment(post?.createdAt).format('DD MMMM YYYY');
   const filter = moment(post?.createdAt);
   const parseDate = (date: moment.Moment) => date.format('YYYY-MM-DD');
@@ -68,15 +69,12 @@ const Thread = ({ post }: Props) => {
           </ChakraLink>
         </NextLink>
       </Flex>
-      <Text fontSize={'md'} fontWeight={'bold'}>
-        {post?.content ?? ''}
-      </Text>
     </Box>
   );
 };
 
 type Props = {
-  post: Post | null | undefined;
+  post: ResourceMap[typeof RESOURCE_NAME.POST] | null | undefined;
 };
 
-export default Thread;
+export default PostField;

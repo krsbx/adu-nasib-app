@@ -1,5 +1,5 @@
-import type { AppProps } from 'next/app';
 import { ChakraProvider } from '@chakra-ui/react';
+import type { AppProps } from 'next/app';
 import { Provider as ReduxProvider } from 'react-redux';
 import MainLayout from '../components/layout/MainLayout';
 import reduxStore from '../store';
