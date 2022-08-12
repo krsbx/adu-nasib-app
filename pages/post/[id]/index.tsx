@@ -40,7 +40,7 @@ const PostPage = ({ getDataById, getAllData, comments }: Props) => {
   return (
     <Flex width={'100%'} direction={'column'} alignItems={'center'} p={5} gap={5}>
       <Stack spacing={4}>
-        <Post.Post post={post} />
+        <Post.PostRead post={post} />
         {_.map(comments.rows, (comment) => (
           <Comment.Comment comment={comment} key={comment.id} />
         ))}

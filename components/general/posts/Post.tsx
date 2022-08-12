@@ -5,6 +5,7 @@ import moment from 'moment';
 import NextLink from 'next/link';
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
+import useBlockquoteMdColor from '../../../hooks/useBlockquoteMdColor';
 import { RESOURCE_NAME } from '../../../utils/constant';
 import { ResourceMap } from '../../../utils/interfaces';
 
@@ -12,6 +13,8 @@ const Post = ({ post }: Props) => {
   const createdAt = moment(post?.createdAt).format('DD MMMM YYYY');
   const filter = moment(post?.createdAt);
   const parseDate = (date: moment.Moment) => date.format('YYYY-MM-DD');
+
+  const { blockQuoteBg, blockQuoteBorderColor, blockQuoteColor } = useBlockquoteMdColor();
 
   return (
     <Box
@@ -81,12 +84,21 @@ const Post = ({ post }: Props) => {
       </Flex>
       <ReactMarkdown
         components={ChakraUIRenderer({
-          p: (props) => (
-            <Text fontSize={'md'} fontWeight={'bold'} {...props}>
-              {_.truncate(props.children as string, {
-                length: 175,
-                omission: '...',
-              })}
+          blockquote: (props) => (
+            <Box py={1} pl={2} bg={blockQuoteBg} color={blockQuoteColor}>
+              <Box
+                pl={2}
+                alignItems={'center'}
+                borderLeftColor={blockQuoteBorderColor}
+                borderLeftWidth={5}
+              >
+                {props.children}
+              </Box>
+            </Box>
+          ),
+          p: ({ children, ...props }) => (
+            <Text fontSize={'md'} lineHeight={'base'} fontWeight={'bold'} {...props}>
+              {_.truncate(children as string, { length: 175 })}
             </Text>
           ),
         })}
