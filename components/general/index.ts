@@ -1,6 +1,4 @@
-import CommentAduan from './CommentAduan';
-import CommentNgadu from './CommentNgadu';
-import Thread from './Thread';
-import ThreadsCard from './ThreadsCard';
+import * as Comment from './comments';
+import * as Post from './posts';
 
-export { CommentAduan, CommentNgadu, Thread, ThreadsCard };
+export { Comment, Post };

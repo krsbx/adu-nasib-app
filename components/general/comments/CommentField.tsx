@@ -12,11 +12,11 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { connect, ConnectedProps } from 'react-redux';
-import { addData as _addData } from '../../store/actions/resources';
-import { RESOURCE_NAME } from '../../utils/constant';
-import { commentSchema } from '../../utils/schema';
+import { addData as _addData } from '../../../store/actions/resources';
+import { RESOURCE_NAME } from '../../../utils/constant';
+import { commentSchema } from '../../../utils/schema';
 
-const CommentNgadu = ({ addData }: Props) => {
+const CommentField = ({ addData }: Props) => {
   const router = useRouter();
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const postId = +router.query.id!;
@@ -72,4 +72,4 @@ const connector = connect(null, {
 
 type Props = ConnectedProps<typeof connector>;
 
-export default connector(CommentNgadu);
+export default connector(CommentField);

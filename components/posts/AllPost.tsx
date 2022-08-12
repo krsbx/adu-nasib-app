@@ -6,7 +6,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import { AppState } from '../../store';
 import { getResources } from '../../store/selector/resources';
 import { RESOURCE_NAME } from '../../utils/constant';
-import { ThreadsCard } from '../general';
+import { Post } from '../general';
 
 const AllPost = ({ posts }: Props) => {
   return (
@@ -18,7 +18,7 @@ const AllPost = ({ posts }: Props) => {
               textDecoration: 'none',
             }}
           >
-            <ThreadsCard post={post} />
+            <Post.Post post={post} />
           </ChakraLink>
         </NextLink>
       ))}
