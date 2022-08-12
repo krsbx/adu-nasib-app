@@ -1,3 +1,4 @@
+import React from 'react';
 import { RESOURCE_NAME, USER_ROLE } from './constant';
 
 export type UserRole = typeof USER_ROLE[keyof typeof USER_ROLE];
@@ -58,3 +59,5 @@ export type Resources = {
   [RESOURCE_NAME.POST]: ResourceStructure<typeof RESOURCE_NAME.POST>;
   [RESOURCE_NAME.COMMENT]: ResourceStructure<typeof RESOURCE_NAME.COMMENT>;
 };
+
+export type ReactSetter<T> = React.Dispatch<React.SetStateAction<T>>;
