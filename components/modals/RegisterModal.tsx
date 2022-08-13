@@ -22,17 +22,26 @@ import { useForm } from 'react-hook-form';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import { VscKey } from 'react-icons/vsc';
 import { connect, ConnectedProps } from 'react-redux';
+import { registerUser as _registerUser } from '../../store/actions/currentUser';
+import { User } from '../../utils/interfaces';
 import { registerSchema } from '../../utils/schema';
 
-const RegisterModal = ({ isOpen, onClose, onLoginOpen }: Props) => {
+type Schema = Pick<User, 'email' | 'password' | 'username'>;
+
+const RegisterModal = ({ isOpen, onClose, onLoginOpen, registerUser }: Props) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const {
     register,
     handleSubmit,
     formState: { errors, touchedFields: touched, isSubmitting },
-  } = useForm<typeof registerSchema['shape']>({
+  } = useForm<Schema>({
     resolver: zodResolver(registerSchema),
   });
+
+  const onSubmit = async (values: Schema) => {
+    await registerUser(values);
+    onClose();
+  };
 
   return (
     <Modal
@@ -54,7 +63,7 @@ const RegisterModal = ({ isOpen, onClose, onLoginOpen }: Props) => {
           <ModalCloseButton />
         </ModalHeader>
         <ModalBody>
-          <form onSubmit={handleSubmit(console.log)}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <Stack spacing={5}>
               <FormControl isInvalid={!!errors?.username?.message && !!touched?.username}>
                 <FormLabel htmlFor="username">Username</FormLabel>
@@ -128,7 +137,9 @@ const RegisterModal = ({ isOpen, onClose, onLoginOpen }: Props) => {
   );
 };
 
-const connector = connect(null, {});
+const connector = connect(null, {
+  registerUser: _registerUser,
+});
 
 type Props = ConnectedProps<typeof connector> & {
   isOpen: boolean;
