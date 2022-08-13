@@ -8,15 +8,26 @@ import {
   useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react';
-import React from 'react';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
 import { FaMoon, FaSun } from 'react-icons/fa';
 import { IoMdKey } from 'react-icons/io';
 import { MdEdit } from 'react-icons/md';
+import * as cookieUtils from '../../utils/cookieUtils';
 import LoginModal from '../modals/LoginModal';
 import RegisterModal from '../modals/RegisterModal';
 
 const Topbar = () => {
+  const router = useRouter();
+  const [isAuth, setIsAuth] = useState(false);
   const { colorMode, toggleColorMode } = useColorMode();
+
+  useEffect(() => {
+    if (!router.isReady) return;
+
+    setIsAuth(cookieUtils.isAuthenticated());
+  }, [router.isReady]);
+
   const colorToggleColor = useColorModeValue('gray.500', 'gray.300');
   const { isOpen: isLoginOpen, onOpen: onLoginOpen, onClose: onLoginClose } = useDisclosure();
   const {
@@ -24,6 +35,12 @@ const Topbar = () => {
     onOpen: onRegisterOpen,
     onClose: onRegisterClose,
   } = useDisclosure();
+
+  const onClickOnAduNasib = () => {
+    if (isAuth) return router.push('/post/create');
+
+    onRegisterOpen();
+  };
 
   return (
     <Flex width="100%" justifyContent={'center'} transition="all 0.3s ease-in-out">
@@ -35,18 +52,20 @@ const Topbar = () => {
           </Text>
         </Flex>
         <Stack direction={'row'} gap={5} alignItems={'center'}>
-          <Button onClick={onRegisterOpen} variant={'ghost'} color={colorToggleColor}>
+          <Button onClick={onClickOnAduNasib} variant={'ghost'} color={colorToggleColor}>
             <Flex gap={2} alignItems={'center'}>
               <MdEdit size={20} />
               <Text>Adu Nasib</Text>
             </Flex>
           </Button>
-          <Button onClick={onLoginOpen} variant={'ghost'} color={colorToggleColor}>
-            <Flex gap={2} alignItems={'center'}>
-              <IoMdKey size={25} />
-              <Text>Masuk</Text>
-            </Flex>
-          </Button>
+          {!isAuth && (
+            <Button onClick={onLoginOpen} variant={'ghost'} color={colorToggleColor}>
+              <Flex gap={2} alignItems={'center'}>
+                <IoMdKey size={25} />
+                <Text>Masuk</Text>
+              </Flex>
+            </Button>
+          )}
           <Button onClick={toggleColorMode} variant={'ghost'} color={colorToggleColor}>
             <Flex gap={2} alignItems={'center'}>
               {colorMode === 'dark' ? <FaSun /> : <FaMoon />}

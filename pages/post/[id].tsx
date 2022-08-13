@@ -3,15 +3,15 @@ import _ from 'lodash';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { Comment, Post } from '../../../components/general';
-import { AppState } from '../../../store';
+import { Comment, Post } from '../../components/general';
+import { AppState } from '../../store';
 import {
   getAllData as _getAllData,
   getDataById as _getDataById,
-} from '../../../store/actions/resources';
-import { getResources } from '../../../store/selector/resources';
-import { RESOURCE_NAME } from '../../../utils/constant';
-import { ResourceMap } from '../../../utils/interfaces';
+} from '../../store/actions/resources';
+import { getResources } from '../../store/selector/resources';
+import { RESOURCE_NAME } from '../../utils/constant';
+import { ResourceMap } from '../../utils/interfaces';
 
 const PostPage = ({ getDataById, getAllData, comments }: Props) => {
   const router = useRouter();
@@ -41,7 +41,7 @@ const PostPage = ({ getDataById, getAllData, comments }: Props) => {
     <Flex width={'100%'} direction={'column'} alignItems={'center'} p={5} gap={5}>
       <Stack spacing={4}>
         <Post.PostRead post={post} />
-        {_.map(comments.rows, (comment) => (
+        {_.map(_.take(Object.values(comments.rows), 10), (comment) => (
           <Comment.Comment comment={comment} key={comment.id} />
         ))}
         <Comment.CommentField />
