@@ -1,6 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
 import _ from 'lodash';
 import { AppDispatch } from '.';
+import * as cookieUtils from '../utils/cookieUtils';
 import { ResourceName } from '../utils/interfaces';
 import { overwriteResource, setResource, updateResource } from './actions/resources';
 
@@ -11,7 +12,7 @@ const instance: AxiosInstance = axios.create({
 export const applyInterceptors = (dispatch: AppDispatch) => {
   instance.interceptors.request.use(
     (config) => {
-      const token = 'getToken()';
+      const token = cookieUtils.getToken();
 
       if (config.headers) {
         config.headers.Authorization = token ? `Bearer ${token}` : '';

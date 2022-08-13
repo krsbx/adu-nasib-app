@@ -6,13 +6,13 @@ const passwordError =
 
 export const loginSchema = z.object({
   email: z.string().email('Email tidak valid'),
-  password: z.string().trim().regex(passwordRegex, passwordError),
+  password: z.string().trim(),
 });
 
 export const registerSchema = z.object({
   username: z.string().min(5, 'Username harus lebih dari 5 karakter'),
   email: z.string().email('Email tidak valid'),
-  password: z.string().trim().regex(passwordRegex, passwordError),
+  password: z.string().trim(),
 });
 
 export const postSchema = z.object({
