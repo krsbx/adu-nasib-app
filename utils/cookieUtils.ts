@@ -3,13 +3,19 @@ import jwtDecode, { JwtPayload } from 'jwt-decode';
 
 export const setUserId = (userId: number | string) => Cookies.set('userId', String(userId));
 
-export const getUserId = () => Cookies.get('userId') as number | null | undefined;
+export const getUserId = () => {
+  const userId = Cookies.get('userId');
+
+  if (!userId) return;
+
+  return +userId;
+};
 
 export const removeUserId = () => Cookies.remove('userId');
 
 export const setToken = (token: string) => Cookies.set('token', token);
 
-export const getToken = () => Cookies.get('token') as string | null | undefined;
+export const getToken = () => Cookies.get('token');
 
 export const isAuthenticated = () => {
   const token = getToken();

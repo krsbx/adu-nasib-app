@@ -35,7 +35,8 @@ const Preview = ({ value, theme }: Props) => {
                 {String(children).replace(/\n$/, '')}
               </SyntaxHighlighter>
             ) : (
-              <Box
+              <Text
+                as="code"
                 px={2}
                 py={2}
                 bg={blockQuoteBg}
@@ -45,7 +46,7 @@ const Preview = ({ value, theme }: Props) => {
                 {...props}
               >
                 {children}
-              </Box>
+              </Text>
             );
           },
           p: ({ children, ...props }) => (

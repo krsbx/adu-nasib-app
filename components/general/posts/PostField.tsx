@@ -7,24 +7,26 @@ import { Markdown } from '..';
 import useCardColorMode from '../../../hooks/useCardColorMode';
 import { addData as _addData } from '../../../store/actions/resources';
 import { PLACEHOLDER, RESOURCE_NAME } from '../../../utils/constant';
-import { commentSchema } from '../../../utils/schema';
+import { Post } from '../../../utils/interfaces';
+import { postSchema } from '../../../utils/schema';
 import { commentTheme } from '../../../utils/theme';
 
 type Schema = { content: string };
 
-const CommentField = ({ addData }: Props) => {
+const PostField = ({ addData }: Props) => {
   const router = useRouter();
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const postId = +router.query.id!;
   const [value, setValue] = useState('');
 
   const { cardBgColor } = useCardColorMode();
 
   const onSubmit = async (values: Schema, reset: UseFormReset<Schema>) => {
-    await addData(RESOURCE_NAME.COMMENT, Object.assign(values, { postId }));
+    const { id } = (await addData(RESOURCE_NAME.POST, values)) as Post;
+
     reset({
       content: '',
     });
+
+    router.push(`/post/${id}`);
   };
 
   return (
@@ -35,11 +37,11 @@ const CommentField = ({ addData }: Props) => {
         </Text>
       </Flex>
       <Markdown.PostCommentField
-        schema={commentSchema}
+        schema={postSchema}
         value={value}
         setValue={setValue}
         onSubmit={onSubmit}
-        placeholder={PLACEHOLDER.COMMENT}
+        placeholder={PLACEHOLDER.POST}
       />
     </Stack>
   );
@@ -51,4 +53,4 @@ const connector = connect(null, {
 
 type Props = ConnectedProps<typeof connector>;
 
-export default connector(CommentField);
+export default connector(PostField);

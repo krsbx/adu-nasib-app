@@ -24,7 +24,6 @@ export const postTheme: BoxProps = {
 };
 
 export const commentTheme: BoxProps = {
-  backgroundColor: 'gray.700',
   width: { base: 'sm', md: 'md' },
   p: 3,
   borderRadius: 'md',
