@@ -10,5 +10,6 @@ export const RESOURCE_NAME = {
 } as const;
 
 export const PLACEHOLDER = {
+  POST: 'Curahkan nasibmu disini...',
   COMMENT: 'Lu mah mending lah gw...',
 };

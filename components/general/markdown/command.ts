@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import {
   boldCommand,
   checkedListCommand,
@@ -13,27 +12,32 @@ import {
   unorderedListCommand,
 } from 'react-mde';
 
-export const commandMap = {
-  heading: headingLevel1Command,
-  bold: boldCommand,
-  italic: italicCommand,
-  quote: quoteCommand,
-  code: codeCommand,
-  link: linkCommand,
-  image: imageCommand,
-  orderedList: orderedListCommand,
-  checkedList: checkedListCommand,
-  unorderedList: unorderedListCommand,
-  strikethrough: strikethroughCommand,
-};
-
 export type CommandName = keyof typeof commandMap;
 
-export const EDITOR_COMMANDS = _.reduce(
-  commandMap,
-  (acc, command, key) => ({
-    ...acc,
-    [_.upperCase(key)]: key,
-  }),
-  {}
-) as Record<Uppercase<CommandName>, CommandName>;
+export const EDITOR_COMMANDS = {
+  HEADING: 'heading',
+  BOLD: 'bold',
+  ITALIC: 'italic',
+  QUOTE: 'quote',
+  CODE: 'code',
+  LINK: 'link',
+  IMAGE: 'image',
+  ORDERED_LIST: 'orderedList',
+  CHECKED_LIST: 'checkedList',
+  UNORDERED_LIST: 'unorderedList',
+  STRIKETHROUGH: 'strikethrough',
+} as const;
+
+export const commandMap = {
+  [EDITOR_COMMANDS.HEADING]: headingLevel1Command,
+  [EDITOR_COMMANDS.BOLD]: boldCommand,
+  [EDITOR_COMMANDS.ITALIC]: italicCommand,
+  [EDITOR_COMMANDS.QUOTE]: quoteCommand,
+  [EDITOR_COMMANDS.CODE]: codeCommand,
+  [EDITOR_COMMANDS.LINK]: linkCommand,
+  [EDITOR_COMMANDS.IMAGE]: imageCommand,
+  [EDITOR_COMMANDS.ORDERED_LIST]: orderedListCommand,
+  [EDITOR_COMMANDS.CHECKED_LIST]: checkedListCommand,
+  [EDITOR_COMMANDS.UNORDERED_LIST]: unorderedListCommand,
+  [EDITOR_COMMANDS.STRIKETHROUGH]: strikethroughCommand,
+};

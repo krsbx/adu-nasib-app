@@ -24,7 +24,7 @@ import {
 } from 'react-icons/fa';
 import { useTextAreaMarkdownEditor } from 'react-mde';
 import { ReactSetter } from '../../../utils/interfaces';
-import { commandMap, CommandName } from './command';
+import { commandMap, CommandName, EDITOR_COMMANDS } from './command';
 import _ToolbarButton from './ToolbarButton';
 
 const Editor = React.forwardRef<HTMLTextAreaElement, Props>(
@@ -90,63 +90,63 @@ const Editor = React.forwardRef<HTMLTextAreaElement, Props>(
       <Stack spacing={3} overflow={'auto'} {...stackProps}>
         <Stack direction={'row'} spacing={5}>
           <Stack direction={'row'} spacing={1}>
-            {_.includes(commandName, 'heading') && (
-              <ToolbarButton name={'heading'}>
+            {_.includes(commandName, EDITOR_COMMANDS.HEADING) && (
+              <ToolbarButton name={EDITOR_COMMANDS.HEADING}>
                 <FaHeading />
               </ToolbarButton>
             )}
-            {_.includes(commandName, 'bold') && (
-              <ToolbarButton name={'bold'}>
+            {_.includes(commandName, EDITOR_COMMANDS.BOLD) && (
+              <ToolbarButton name={EDITOR_COMMANDS.BOLD}>
                 <FaBold />
               </ToolbarButton>
             )}
-            {_.includes(commandName, 'italic') && (
-              <ToolbarButton name={'italic'}>
+            {_.includes(commandName, EDITOR_COMMANDS.ITALIC) && (
+              <ToolbarButton name={EDITOR_COMMANDS.ITALIC}>
                 <FaItalic />
               </ToolbarButton>
             )}
-            {_.includes(commandName, 'strikethrough') && (
-              <ToolbarButton name={'strikethrough'}>
+            {_.includes(commandName, EDITOR_COMMANDS.STRIKETHROUGH) && (
+              <ToolbarButton name={EDITOR_COMMANDS.STRIKETHROUGH}>
                 <FaStrikethrough />
               </ToolbarButton>
             )}
           </Stack>
           <Stack direction={'row'} spacing={1}>
-            {_.includes(commandName, 'link') && (
-              <ToolbarButton name={'link'}>
+            {_.includes(commandName, EDITOR_COMMANDS.LINK) && (
+              <ToolbarButton name={EDITOR_COMMANDS.LINK}>
                 <FaLink />
               </ToolbarButton>
             )}
-            {_.includes(commandName, 'quote') && (
-              <ToolbarButton name={'quote'}>
+            {_.includes(commandName, EDITOR_COMMANDS.QUOTE) && (
+              <ToolbarButton name={EDITOR_COMMANDS.QUOTE}>
                 <FaQuoteRight />
               </ToolbarButton>
             )}
-            {_.includes(commandName, 'code') && (
-              <ToolbarButton name={'code'}>
+            {_.includes(commandName, EDITOR_COMMANDS.CODE) && (
+              <ToolbarButton name={EDITOR_COMMANDS.CODE}>
                 <FaCode />
               </ToolbarButton>
             )}
-            {_.includes(commandName, 'image') && (
-              <ToolbarButton name={'image'}>
+            {_.includes(commandName, EDITOR_COMMANDS.IMAGE) && (
+              <ToolbarButton name={EDITOR_COMMANDS.IMAGE}>
                 <FaImage />
               </ToolbarButton>
             )}
           </Stack>
         </Stack>
         <Stack direction={'row'} spacing={1}>
-          {_.includes(commandName, 'unorderedList') && (
-            <ToolbarButton name={'unorderedList'}>
+          {_.includes(commandName, EDITOR_COMMANDS.UNORDERED_LIST) && (
+            <ToolbarButton name={EDITOR_COMMANDS.UNORDERED_LIST}>
               <FaListOl />
             </ToolbarButton>
           )}
-          {_.includes(commandName, 'orderedList') && (
-            <ToolbarButton name={'orderedList'}>
+          {_.includes(commandName, EDITOR_COMMANDS.ORDERED_LIST) && (
+            <ToolbarButton name={EDITOR_COMMANDS.ORDERED_LIST}>
               <FaListUl />
             </ToolbarButton>
           )}
-          {_.includes(commandName, 'checkedList') && (
-            <ToolbarButton name={'checkedList'}>
+          {_.includes(commandName, EDITOR_COMMANDS.CHECKED_LIST) && (
+            <ToolbarButton name={EDITOR_COMMANDS.CHECKED_LIST}>
               <FaCheck />
             </ToolbarButton>
           )}

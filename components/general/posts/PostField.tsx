@@ -11,16 +11,14 @@ import useFieldButtonColorMode from '../../../hooks/useFieldButtonColorMode';
 import { addData as _addData } from '../../../store/actions/resources';
 import { PLACEHOLDER, RESOURCE_NAME } from '../../../utils/constant';
 import { ResourceMap } from '../../../utils/interfaces';
-import { commentSchema } from '../../../utils/schema';
+import { postSchema } from '../../../utils/schema';
 import { commentTheme } from '../../../utils/theme';
 import { EDITOR_COMMANDS } from '../markdown/command';
 
-type Schema = Pick<ResourceMap[typeof RESOURCE_NAME.COMMENT], 'content'>;
+type Schema = Pick<ResourceMap[typeof RESOURCE_NAME.POST], 'content'>;
 
-const CommentField = ({ addData }: Props) => {
+const PostField = ({ addData }: Props) => {
   const router = useRouter();
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const postId = +router.query.id!;
   const [isEdit, setIsEdit] = useState(true);
   const [value, setValue] = useState('');
 
@@ -35,14 +33,20 @@ const CommentField = ({ addData }: Props) => {
     formState: { isSubmitting },
     reset,
   } = useForm<Schema>({
-    resolver: zodResolver(commentSchema),
+    resolver: zodResolver(postSchema),
   });
 
   const onSubmit = async (values: Schema) => {
-    await addData(RESOURCE_NAME.COMMENT, Object.assign(values, { postId }));
+    const { id } = (await addData(
+      RESOURCE_NAME.POST,
+      values
+    )) as ResourceMap[typeof RESOURCE_NAME.POST];
+
     reset({
       content: '',
     });
+
+    router.push(`/post/${id}`);
   };
 
   return (
@@ -83,7 +87,7 @@ const CommentField = ({ addData }: Props) => {
               commandName={_.values(_.omit(EDITOR_COMMANDS, ['CODE']))}
               variant="filled"
               fontWeight={'semibold'}
-              placeholder={PLACEHOLDER.COMMENT}
+              placeholder={PLACEHOLDER.POST}
               minH={'175px'}
               stackProps={{
                 color: cardTextColor,
@@ -110,4 +114,4 @@ const connector = connect(null, {
 
 type Props = ConnectedProps<typeof connector>;
 
-export default connector(CommentField);
+export default connector(PostField);

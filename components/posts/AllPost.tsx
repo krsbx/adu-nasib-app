@@ -1,4 +1,4 @@
-import { Flex, Link as ChakraLink } from '@chakra-ui/react';
+import { Flex, Link as ChakraLink, Stack } from '@chakra-ui/react';
 import _ from 'lodash';
 import NextLink from 'next/link';
 import React from 'react';
@@ -11,17 +11,19 @@ import { Post } from '../general';
 const AllPost = ({ posts }: Props) => {
   return (
     <Flex width={'100%'} direction={'column'} alignItems={'center'} p={5} gap={5}>
-      {_.map(posts.rows, (post) => (
-        <NextLink href={`/post/${post.id}`} passHref key={post.id}>
-          <ChakraLink
-            _hover={{
-              textDecoration: 'none',
-            }}
-          >
-            <Post.Post post={post} />
-          </ChakraLink>
-        </NextLink>
-      ))}
+      <Stack spacing={4}>
+        {_.map(posts.rows, (post) => (
+          <NextLink href={`/post/${post.id}`} passHref key={post.id}>
+            <ChakraLink
+              _hover={{
+                textDecoration: 'none',
+              }}
+            >
+              <Post.Post post={post} />
+            </ChakraLink>
+          </NextLink>
+        ))}
+      </Stack>
     </Flex>
   );
 };
