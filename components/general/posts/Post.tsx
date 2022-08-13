@@ -1,40 +1,33 @@
 import { Box, Flex, Link as ChakraLink, Text } from '@chakra-ui/react';
-import ChakraUIRenderer from 'chakra-ui-markdown-renderer';
 import _ from 'lodash';
 import moment from 'moment';
 import NextLink from 'next/link';
 import React from 'react';
-import ReactMarkdown from 'react-markdown';
-import useBlockquoteMdColor from '../../../hooks/useBlockquoteMdColor';
+import { Markdown } from '..';
+import useCardColorMode from '../../../hooks/useCardColorMode';
 import { RESOURCE_NAME } from '../../../utils/constant';
 import { ResourceMap } from '../../../utils/interfaces';
+import { postTheme } from '../../../utils/theme';
 
 const Post = ({ post }: Props) => {
   const createdAt = moment(post?.createdAt).format('DD MMMM YYYY');
   const filter = moment(post?.createdAt);
   const parseDate = (date: moment.Moment) => date.format('YYYY-MM-DD');
 
-  const { blockQuoteBg, blockQuoteBorderColor, blockQuoteColor } = useBlockquoteMdColor();
+  const { cardBgColor, cardHoverBgColor, cardTextColor } = useCardColorMode();
 
   return (
     <Box
-      backgroundColor="gray.700"
-      width={{ base: 'sm', md: 'md' }}
-      p={3}
-      borderRadius={'md'}
-      gap={3}
-      boxShadow={'md'}
+      {...postTheme}
+      backgroundColor={cardBgColor}
       _hover={{
-        bg: 'blackAlpha.300',
-        boxShadow: '0px 25px 50px rgba(0, 0, 0, 0.4)',
+        bg: cardHoverBgColor,
+        boxShadow: `0px 25px 50px rgba(0, 0, 0, 0.4)`,
         minHeight: '150px',
         maxHeight: '175px',
       }}
-      overflow={'hidden'}
-      transition="all 0.3s ease-in-out"
-      minWidth={'100%'}
-      minHeight={'75px'}
       maxHeight={'100px'}
+      color={cardTextColor}
     >
       <Flex gap={3} alignItems="center">
         <NextLink href={`/posts?filters=user.username = "${post?.user?.username}"`} passHref>
@@ -82,30 +75,16 @@ const Post = ({ post }: Props) => {
           </ChakraLink>
         </NextLink>
       </Flex>
-      <ReactMarkdown
-        components={ChakraUIRenderer({
-          blockquote: (props) => (
-            <Box py={1} pl={2} bg={blockQuoteBg} color={blockQuoteColor}>
-              <Box
-                pl={2}
-                alignItems={'center'}
-                borderLeftColor={blockQuoteBorderColor}
-                borderLeftWidth={5}
-              >
-                {props.children}
-              </Box>
-            </Box>
-          ),
+      <Markdown.Preview
+        value={post?.content ?? ''}
+        theme={{
           p: ({ children, ...props }) => (
             <Text fontSize={'md'} lineHeight={'base'} fontWeight={'bold'} {...props}>
               {_.truncate(children as string, { length: 175 })}
             </Text>
           ),
-        })}
-        skipHtml
-      >
-        {post?.content ?? ''}
-      </ReactMarkdown>
+        }}
+      />
     </Box>
   );
 };

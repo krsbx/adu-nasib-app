@@ -1,9 +1,11 @@
-import { Button, ButtonProps } from '@chakra-ui/react';
+import { Button, ButtonProps, useColorModeValue } from '@chakra-ui/react';
 import React from 'react';
 
 const ToolbarButton = ({ children, ...props }: ButtonProps) => {
+  const color = useColorModeValue('gray.500', 'gray.300');
+
   return (
-    <Button variant={'outline'} size={'sm'} color={'gray.600'} {...props}>
+    <Button size={'sm'} color={color} {...props}>
       {children}
     </Button>
   );

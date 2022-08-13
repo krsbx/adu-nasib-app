@@ -21,6 +21,7 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import { VscKey } from 'react-icons/vsc';
+import { connect, ConnectedProps } from 'react-redux';
 import { registerSchema } from '../../utils/schema';
 
 const RegisterModal = ({ isOpen, onClose, onLoginOpen }: Props) => {
@@ -28,7 +29,7 @@ const RegisterModal = ({ isOpen, onClose, onLoginOpen }: Props) => {
   const {
     register,
     handleSubmit,
-    formState: { errors, touchedFields: touched },
+    formState: { errors, touchedFields: touched, isSubmitting },
   } = useForm<typeof registerSchema['shape']>({
     resolver: zodResolver(registerSchema),
   });
@@ -53,7 +54,7 @@ const RegisterModal = ({ isOpen, onClose, onLoginOpen }: Props) => {
           <ModalCloseButton />
         </ModalHeader>
         <ModalBody>
-          <form onSubmit={handleSubmit(console.log, console.log)}>
+          <form onSubmit={handleSubmit(console.log)}>
             <Stack spacing={5}>
               <FormControl isInvalid={!!errors?.username?.message && !!touched?.username}>
                 <FormLabel htmlFor="username">Username</FormLabel>
@@ -99,7 +100,9 @@ const RegisterModal = ({ isOpen, onClose, onLoginOpen }: Props) => {
                 </InputGroup>
                 <FormErrorMessage>{errors?.password?.message}</FormErrorMessage>
               </FormControl>
-              <Button type="submit">Adu Nasib!</Button>
+              <Button disabled={isSubmitting} isLoading={isSubmitting} type={'submit'}>
+                Adu Nasib!
+              </Button>
               <Flex alignItems="center" justifyContent="center" gap={4} px={3}>
                 <Text fontSize={'xs'}>Sudah punya akun?</Text>
                 <Text
@@ -125,10 +128,12 @@ const RegisterModal = ({ isOpen, onClose, onLoginOpen }: Props) => {
   );
 };
 
-type Props = {
+const connector = connect(null, {});
+
+type Props = ConnectedProps<typeof connector> & {
   isOpen: boolean;
   onClose: () => void;
   onLoginOpen: () => void;
 };
 
-export default RegisterModal;
+export default connector(RegisterModal);

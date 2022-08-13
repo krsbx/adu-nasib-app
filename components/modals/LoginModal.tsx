@@ -21,6 +21,8 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import { VscKey } from 'react-icons/vsc';
+import { connect, ConnectedProps } from 'react-redux';
+import {} from '../../store/actions/resources';
 import { loginSchema } from '../../utils/schema';
 
 const LoginModal = ({ isOpen, onClose }: Props) => {
@@ -28,7 +30,7 @@ const LoginModal = ({ isOpen, onClose }: Props) => {
   const {
     register,
     handleSubmit,
-    formState: { errors, touchedFields: touched },
+    formState: { errors, touchedFields: touched, isSubmitting },
   } = useForm<typeof loginSchema['shape']>({
     resolver: zodResolver(loginSchema),
   });
@@ -53,7 +55,7 @@ const LoginModal = ({ isOpen, onClose }: Props) => {
           <ModalCloseButton />
         </ModalHeader>
         <ModalBody>
-          <form onSubmit={handleSubmit(console.log, console.log)}>
+          <form onSubmit={handleSubmit(console.log)}>
             <Stack spacing={5}>
               <FormControl isInvalid={!!errors?.email?.message && !!touched?.email}>
                 <FormLabel htmlFor="email">Email</FormLabel>
@@ -87,7 +89,9 @@ const LoginModal = ({ isOpen, onClose }: Props) => {
                 </InputGroup>
                 <FormErrorMessage>{errors?.password?.message}</FormErrorMessage>
               </FormControl>
-              <Button type="submit">Adu Nasib!</Button>
+              <Button disabled={isSubmitting} isLoading={isSubmitting} type={'submit'}>
+                Adu Nasib!
+              </Button>
             </Stack>
           </form>
         </ModalBody>
@@ -96,9 +100,11 @@ const LoginModal = ({ isOpen, onClose }: Props) => {
   );
 };
 
-type Props = {
+const connector = connect(null, {});
+
+type Props = ConnectedProps<typeof connector> & {
   isOpen: boolean;
   onClose: () => void;
 };
 
-export default LoginModal;
+export default connector(LoginModal);

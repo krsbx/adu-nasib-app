@@ -4,7 +4,7 @@ import Topbar from './Topbar';
 
 const MainLayout = ({ children }: Props) => {
   return (
-    <Box height={'100vh'} width={'100vw'} p={3}>
+    <Box height={'100vh'} width={'100vw'} p={3} overflowX={'hidden'} overflowY={'auto'}>
       <Topbar />
       {children}
     </Box>
