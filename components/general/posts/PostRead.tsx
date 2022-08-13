@@ -3,27 +3,20 @@ import moment from 'moment';
 import NextLink from 'next/link';
 import React from 'react';
 import { Markdown } from '..';
+import useCardColorMode from '../../../hooks/useCardColorMode';
 import { RESOURCE_NAME } from '../../../utils/constant';
 import { ResourceMap } from '../../../utils/interfaces';
+import { postTheme } from '../../../utils/theme';
 
 const PostRead = ({ post }: Props) => {
   const createdAt = moment(post?.createdAt).format('DD MMMM YYYY');
   const filter = moment(post?.createdAt);
   const parseDate = (date: moment.Moment) => date.format('YYYY-MM-DD');
 
+  const { cardBgColor, cardTextColor } = useCardColorMode();
+
   return (
-    <Box
-      backgroundColor="gray.700"
-      width={{ base: 'sm', md: 'md' }}
-      p={3}
-      borderRadius={'md'}
-      gap={3}
-      boxShadow={'md'}
-      overflow={'hidden'}
-      transition="all 0.3s ease-in-out"
-      minWidth={'100%'}
-      minHeight={'75px'}
-    >
+    <Box {...postTheme} backgroundColor={cardBgColor} color={cardTextColor}>
       <Flex gap={3} alignItems="center">
         <NextLink href={`/posts?filters=user.username = "${post?.user?.username}"`} passHref>
           <ChakraLink

@@ -1,11 +1,23 @@
-import { Flex, Image, Stack, Text, useDisclosure } from '@chakra-ui/react';
+import {
+  Button,
+  Flex,
+  Image,
+  Stack,
+  Text,
+  useColorMode,
+  useColorModeValue,
+  useDisclosure,
+} from '@chakra-ui/react';
 import React from 'react';
-import { FiEdit2 } from 'react-icons/fi';
-import { VscKey } from 'react-icons/vsc';
+import { FaMoon, FaSun } from 'react-icons/fa';
+import { IoMdKey } from 'react-icons/io';
+import { MdEdit } from 'react-icons/md';
 import LoginModal from '../modals/LoginModal';
 import RegisterModal from '../modals/RegisterModal';
 
 const Topbar = () => {
+  const { colorMode, toggleColorMode } = useColorMode();
+  const colorToggleColor = useColorModeValue('gray.500', 'gray.300');
   const { isOpen: isLoginOpen, onOpen: onLoginOpen, onClose: onLoginClose } = useDisclosure();
   const {
     isOpen: isRegisterOpen,
@@ -14,21 +26,33 @@ const Topbar = () => {
   } = useDisclosure();
 
   return (
-    <Flex width="100%" justifyContent={'center'}>
+    <Flex width="100%" justifyContent={'center'} transition="all 0.3s ease-in-out">
       <Flex width="90%" justifyContent={'space-between'}>
-        <Flex direction={'column'} gap={2} justifyContent={'center'}>
+        <Flex direction={'column'} gap={2} justifyContent={'center'} color={colorToggleColor}>
           <Image src="/AduNasib.jpg" alt="logo" w={'120px'} h="auto" />
-          <Text>Sudahkah kamu mengadu nasib hari ini?</Text>
+          <Text fontSize={'sm'} fontWeight={'semibold'}>
+            Sudahkah kamu mengadu nasib hari ini?
+          </Text>
         </Flex>
         <Stack direction={'row'} gap={5} alignItems={'center'}>
-          <Flex gap={2} alignItems={'center'} cursor={'pointer'} onClick={onRegisterOpen}>
-            <FiEdit2 />
-            <Text>Adu Nasib</Text>
-          </Flex>
-          <Flex gap={2} alignItems={'center'} cursor={'pointer'} onClick={onLoginOpen}>
-            <VscKey />
-            <Text>Masuk</Text>
-          </Flex>
+          <Button onClick={onRegisterOpen} variant={'ghost'} color={colorToggleColor}>
+            <Flex gap={2} alignItems={'center'}>
+              <MdEdit size={20} />
+              <Text>Adu Nasib</Text>
+            </Flex>
+          </Button>
+          <Button onClick={onLoginOpen} variant={'ghost'} color={colorToggleColor}>
+            <Flex gap={2} alignItems={'center'}>
+              <IoMdKey size={25} />
+              <Text>Masuk</Text>
+            </Flex>
+          </Button>
+          <Button onClick={toggleColorMode} variant={'ghost'} color={colorToggleColor}>
+            <Flex gap={2} alignItems={'center'}>
+              {colorMode === 'dark' ? <FaSun /> : <FaMoon />}
+              <Text>{colorMode === 'dark' ? 'Dark' : 'Light'}</Text>
+            </Flex>
+          </Button>
         </Stack>
       </Flex>
       <LoginModal isOpen={isLoginOpen} onClose={onLoginClose} />
