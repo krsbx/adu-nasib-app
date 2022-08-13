@@ -1,23 +1,59 @@
-import { Box, Flex, Link as ChakraLink, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Link as ChakraLink, Text } from '@chakra-ui/react';
 import moment from 'moment';
 import NextLink from 'next/link';
-import React from 'react';
+import React, { createRef, useEffect, useMemo, useState } from 'react';
+import { MdEdit } from 'react-icons/md';
+import { connect, ConnectedProps } from 'react-redux';
 import { Markdown } from '..';
 import useCardColorMode from '../../../hooks/useCardColorMode';
-import { RESOURCE_NAME } from '../../../utils/constant';
-import { ResourceMap } from '../../../utils/interfaces';
+import useCurrentUserId from '../../../hooks/useCurrentUserId';
+import useIsHoveringElement from '../../../hooks/useIsHoveringElement';
+import useOnClickOutside from '../../../hooks/useOnClickOutside';
+import { updateData } from '../../../store/actions/resources';
+import { PLACEHOLDER, RESOURCE_NAME } from '../../../utils/constant';
+import { Comment } from '../../../utils/interfaces';
+import { commentSchema } from '../../../utils/schema';
 import { commentTheme } from '../../../utils/theme';
 
-const Comment = ({ comment }: Props) => {
+const Comment = ({ comment, updateComment }: Props) => {
   const createdAt = moment(comment?.createdAt).format('DD MMMM YYYY');
   const filter = moment(comment?.createdAt);
   const parseDate = (date: moment.Moment) => date.format('YYYY-MM-DD');
 
+  const cardRef = createRef<HTMLDivElement>();
+  const [value, setValue] = useState('');
+  const [isEdit, setIsEdit] = useState(false);
+
+  const currUserId = useCurrentUserId();
+  const isHoveringCard = useIsHoveringElement(cardRef);
   const { cardBgColor, cardTextColor } = useCardColorMode();
 
+  const isEditable = useMemo(() => {
+    if (!comment || !currUserId) return false;
+
+    const isAuthor = comment.userId === currUserId;
+
+    return isAuthor && isHoveringCard && !isEdit;
+  }, [comment?.userId, currUserId, isHoveringCard, isEdit]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useOnClickOutside(cardRef, () => setIsEdit(false));
+
+  useEffect(() => {
+    if (!comment) return;
+
+    setValue(comment.content);
+  }, [comment]);
+
+  const onUpdate = async (values: { content: string }) => {
+    if (!comment) return;
+
+    await updateComment(comment?.id, values);
+    setIsEdit(false);
+  };
+
   return (
-    <Box {...commentTheme} backgroundColor={cardBgColor} color={cardTextColor}>
-      <Flex gap={3} alignItems="center">
+    <Box {...commentTheme} backgroundColor={cardBgColor} color={cardTextColor} ref={cardRef}>
+      <Flex gap={3} alignItems="center" position={'relative'} mb={2}>
         <NextLink href={`/comments?filters=user.username = "${comment?.user?.username}"`} passHref>
           <ChakraLink
             _hover={{
@@ -62,14 +98,39 @@ const Comment = ({ comment }: Props) => {
             </Text>
           </ChakraLink>
         </NextLink>
+        {isEditable && (
+          <Button
+            position={'absolute'}
+            right={0}
+            top={0}
+            variant={'ghost'}
+            onClick={() => setIsEdit(true)}
+          >
+            <MdEdit />
+          </Button>
+        )}
       </Flex>
-      <Markdown.Preview value={comment?.content ?? ''} />
+      {isEdit ? (
+        <Markdown.PostCommentField
+          value={value}
+          setValue={setValue}
+          schema={commentSchema}
+          placeholder={PLACEHOLDER.COMMENT}
+          onSubmit={onUpdate}
+        />
+      ) : (
+        <Markdown.Preview value={comment?.content ?? ''} />
+      )}
     </Box>
   );
 };
 
-type Props = {
-  comment: ResourceMap[typeof RESOURCE_NAME.COMMENT] | null | undefined;
+const connector = connect(null, {
+  updateComment: updateData(RESOURCE_NAME.COMMENT),
+});
+
+type Props = ConnectedProps<typeof connector> & {
+  comment: Comment | null | undefined;
 };
 
-export default Comment;
+export default connector(Comment);

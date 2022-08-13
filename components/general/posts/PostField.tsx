@@ -7,7 +7,7 @@ import { Markdown } from '..';
 import useCardColorMode from '../../../hooks/useCardColorMode';
 import { addData as _addData } from '../../../store/actions/resources';
 import { PLACEHOLDER, RESOURCE_NAME } from '../../../utils/constant';
-import { ResourceMap } from '../../../utils/interfaces';
+import { Post } from '../../../utils/interfaces';
 import { postSchema } from '../../../utils/schema';
 import { commentTheme } from '../../../utils/theme';
 
@@ -20,10 +20,7 @@ const PostField = ({ addData }: Props) => {
   const { cardBgColor } = useCardColorMode();
 
   const onSubmit = async (values: Schema, reset: UseFormReset<Schema>) => {
-    const { id } = (await addData(
-      RESOURCE_NAME.POST,
-      values
-    )) as ResourceMap[typeof RESOURCE_NAME.POST];
+    const { id } = (await addData(RESOURCE_NAME.POST, values)) as Post;
 
     reset({
       content: '',
