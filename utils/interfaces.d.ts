@@ -61,3 +61,8 @@ export type Resources = {
 };
 
 export type ReactSetter<T> = React.Dispatch<React.SetStateAction<T>>;
+
+export type Action<T> = {
+  type: string;
+  data: T;
+};

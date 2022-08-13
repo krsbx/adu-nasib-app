@@ -8,3 +8,7 @@ export const RESOURCE_NAME = {
   POST: 'posts',
   COMMENT: 'comments',
 } as const;
+
+export const PLACEHOLDER = {
+  COMMENT: 'Lu mah mending lah gw...',
+};
