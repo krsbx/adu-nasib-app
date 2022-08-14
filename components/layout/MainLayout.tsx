@@ -4,9 +4,11 @@ import Topbar from './Topbar';
 
 const MainLayout = ({ children }: Props) => {
   return (
-    <Box height={'100vh'} width={'100vw'} p={3} overflowX={'hidden'} overflowY={'auto'}>
+    <Box height={'100vh'} width={'100vw'} p={3} overflow={'hidden'}>
       <Topbar />
-      {children}
+      <Box height={`calc(100vh - 50.5px)`} overflowY={'auto'}>
+        {children}
+      </Box>
     </Box>
   );
 };

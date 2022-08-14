@@ -11,7 +11,7 @@ const Preview = ({ value, theme }: Props) => {
   const { blockQuoteBg, blockQuoteBorderColor, blockQuoteColor } = useBlockquoteMdColor();
 
   return (
-    <Box minH={'250px'}>
+    <Box minH={'50px'}>
       <ReactMarkdown
         components={ChakraUIRenderer({
           blockquote: ({ children }) => (
