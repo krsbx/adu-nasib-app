@@ -1,8 +1,9 @@
-import { Box, Flex, Link as ChakraLink, Text } from '@chakra-ui/react';
+import { Box, Flex, Link as ChakraLink, Stack, Text } from '@chakra-ui/react';
 import _ from 'lodash';
 import moment from 'moment';
 import NextLink from 'next/link';
 import React from 'react';
+import { FaRetweet } from 'react-icons/fa';
 import { Markdown } from '..';
 import useCardColorMode from '../../../hooks/useCardColorMode';
 import { RESOURCE_NAME } from '../../../utils/constant';
@@ -35,6 +36,10 @@ const Post = ({ post }: Props) => {
       color={cardTextColor}
     >
       <Flex gap={3} alignItems="center">
+        <Stack direction={'row'} spacing={1} alignItems={'center'} fontWeight={'bold'}>
+          <FaRetweet size={'20px'} />
+          <Text fontSize={'sm'}>{post?.replies}</Text>
+        </Stack>
         <NextLink href={filterByUsername} passHref>
           <ChakraLink
             _hover={{

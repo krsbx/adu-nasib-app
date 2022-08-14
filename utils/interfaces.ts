@@ -28,6 +28,8 @@ export type Post = {
   userId: number;
   createdAt: string;
   updatedAt: string;
+  likes: number;
+  replies: number;
   user?: User;
 };
 
@@ -38,6 +40,7 @@ export type Comment = {
   userId: number;
   createdAt: string;
   updatedAt: string;
+  likes: number;
   user?: User;
 };
 

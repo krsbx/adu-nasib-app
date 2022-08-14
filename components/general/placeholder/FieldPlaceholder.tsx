@@ -1,17 +1,14 @@
 import { Stack, Textarea } from '@chakra-ui/react';
 import useCardColorMode from '../../../hooks/useCardColorMode';
-import { PLACEHOLDER } from '../../../utils/constant';
 import { commentTheme } from '../../../utils/theme';
 
-const CommentPlaceholder = ({ onFocus }: Props) => {
+const FieldPlaceholder = ({ onClick, placeholder }: Props) => {
   const { cardBgColor } = useCardColorMode();
-
-  const onClick = () => onFocus?.();
 
   return (
     <Stack {...commentTheme} backgroundColor={cardBgColor} spacing={1}>
       <Textarea
-        placeholder={PLACEHOLDER.COMMENT}
+        placeholder={placeholder}
         fontWeight={'semibold'}
         onClick={onClick}
         variant="filled"
@@ -21,7 +18,8 @@ const CommentPlaceholder = ({ onFocus }: Props) => {
 };
 
 type Props = {
-  onFocus?: () => void;
+  onClick: () => void;
+  placeholder: string;
 };
 
-export default CommentPlaceholder;
+export default FieldPlaceholder;

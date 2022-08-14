@@ -80,7 +80,7 @@ const PostCommentField = ({ setValue, value, placeholder, schema, onSubmit }: Pr
               variant="filled"
               fontWeight={'semibold'}
               placeholder={placeholder}
-              minH={'175px'}
+              minH={'150px'}
               stackProps={{
                 color: cardTextColor,
                 backgroundColor: cardBgColor,
@@ -99,6 +99,8 @@ const PostCommentField = ({ setValue, value, placeholder, schema, onSubmit }: Pr
     </Stack>
   );
 };
+
+PostCommentField.displayName = 'PostCommentField';
 
 type Props = {
   value: string;

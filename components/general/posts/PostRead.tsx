@@ -1,7 +1,8 @@
-import { Box, Button, Flex, Link as ChakraLink, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Link as ChakraLink, Stack, Text } from '@chakra-ui/react';
 import moment from 'moment';
 import NextLink from 'next/link';
 import React, { createRef, useEffect, useMemo, useState } from 'react';
+import { FaRetweet } from 'react-icons/fa';
 import { MdEdit } from 'react-icons/md';
 import { connect, ConnectedProps } from 'react-redux';
 import { Markdown } from '..';
@@ -19,6 +20,11 @@ const PostRead = ({ post, setPost, updatePost }: Props) => {
   const createdAt = moment(post?.createdAt).format('DD MMMM YYYY');
   const filter = moment(post?.createdAt);
   const parseDate = (date: moment.Moment) => date.format('YYYY-MM-DD');
+
+  const filterByDate = `/posts?filters=createdAt > "${parseDate(
+    filter
+  )}" AND createdAt < "${parseDate(filter.add(1, 'd'))}"`;
+  const filterByUsername = `/posts?filters=user.username = "${post?.user?.username}"`;
 
   const cardRef = createRef<HTMLDivElement>();
   const [value, setValue] = useState('');
@@ -54,7 +60,18 @@ const PostRead = ({ post, setPost, updatePost }: Props) => {
   return (
     <Box {...postTheme} backgroundColor={cardBgColor} color={cardTextColor} ref={cardRef}>
       <Flex gap={3} alignItems="center" position={'relative'} mb={2}>
-        <NextLink href={`/posts?filters=user.username = "${post?.user?.username}"`} passHref>
+        <Stack
+          direction={'row'}
+          spacing={1}
+          alignItems={'center'}
+          justifyContent={'center'}
+          fontWeight={'bold'}
+          userSelect={'none'}
+        >
+          <FaRetweet size={'20px'} />
+          <Text fontSize={'sm'}>{post?.replies}</Text>
+        </Stack>
+        <NextLink href={filterByUsername} passHref>
           <ChakraLink
             _hover={{
               textDecoration: 'none',
@@ -74,12 +91,7 @@ const PostRead = ({ post, setPost, updatePost }: Props) => {
           </ChakraLink>
         </NextLink>
         <Text fontSize={'xs'}>mengadu nasib</Text>
-        <NextLink
-          href={`/posts?filters=createdAt > "${parseDate(filter)}" AND createdAt < "${parseDate(
-            filter.add(1, 'd')
-          )}"`}
-          passHref
-        >
+        <NextLink href={filterByDate} passHref>
           <ChakraLink
             _hover={{
               textDecoration: 'none',

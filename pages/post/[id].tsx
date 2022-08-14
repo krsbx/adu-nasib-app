@@ -4,13 +4,14 @@ import React, { useEffect, useState } from 'react';
 import useInfiniteScroll from 'react-infinite-scroll-hook';
 import { connect, ConnectedProps } from 'react-redux';
 import { Comment, Loading, Post } from '../../components/general';
+import FieldPlaceholder from '../../components/general/placeholder/FieldPlaceholder';
 import useHasNextPage from '../../hooks/useHasNextPage';
 import useLoadMoreResource from '../../hooks/useLoadMoreResource';
 import { AppState } from '../../store';
 import { getDataById as _getDataById } from '../../store/actions/resources';
 import { getResources } from '../../store/selector/resources';
 import { sortPostComment } from '../../utils/common';
-import { RESOURCE_NAME } from '../../utils/constant';
+import { PLACEHOLDER, RESOURCE_NAME } from '../../utils/constant';
 import { ResourceMap } from '../../utils/interfaces';
 
 const PostPage = ({ getDataById, comments }: Props) => {
@@ -49,7 +50,7 @@ const PostPage = ({ getDataById, comments }: Props) => {
         {hasFocused ? (
           <Comment.CommentField />
         ) : (
-          <Comment.CommentPlaceholder onFocus={() => setHasFocused(true)} />
+          <FieldPlaceholder onClick={() => setHasFocused(true)} placeholder={PLACEHOLDER.COMMENT} />
         )}
         {sortPostComment(comments.rows, 'desc').map((comment) => (
           <Comment.Comment comment={comment} key={comment.id} />
