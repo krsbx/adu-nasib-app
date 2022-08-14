@@ -6,13 +6,13 @@ const passwordError =
 
 export const loginSchema = z.object({
   email: z.string().email('Email tidak valid'),
-  password: z.string().trim(),
+  password: z.string().trim().min(1, 'Password tidak boleh kosong'),
 });
 
 export const registerSchema = z.object({
   username: z.string().min(5, 'Username harus lebih dari 5 karakter'),
   email: z.string().email('Email tidak valid'),
-  password: z.string().trim(),
+  password: z.string().trim().regex(passwordRegex, passwordError),
 });
 
 export const postSchema = z.object({
@@ -21,4 +21,8 @@ export const postSchema = z.object({
 
 export const commentSchema = z.object({
   content: z.string().min(10),
+});
+
+export const searchSchema = z.object({
+  keyword: z.string().min(3, 'Kata kunci harus lebih dari 3 karakter'),
 });
