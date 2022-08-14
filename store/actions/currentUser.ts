@@ -10,7 +10,9 @@ export const loginUser =
   (payload: Pick<User, 'email' | 'password'>) => async (dispatch: AppDispatch) => {
     const { data: loginRes } = await axios.post<{ id: number; token: string }>(
       '/auth/login',
-      payload
+      Object.assign(payload, {
+        always: true,
+      })
     );
 
     cookieUtils.setToken(loginRes.token);

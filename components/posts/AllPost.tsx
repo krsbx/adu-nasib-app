@@ -1,10 +1,9 @@
-import { Flex, Link as ChakraLink, Stack } from '@chakra-ui/react';
-import _ from 'lodash';
-import NextLink from 'next/link';
+import { Flex, Stack } from '@chakra-ui/react';
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { AppState } from '../../store';
 import { getResources } from '../../store/selector/resources';
+import { sortPostComment } from '../../utils/common';
 import { RESOURCE_NAME } from '../../utils/constant';
 import { Post } from '../general';
 
@@ -12,16 +11,8 @@ const AllPost = ({ posts }: Props) => {
   return (
     <Flex width={'100%'} direction={'column'} alignItems={'center'} p={5} gap={5}>
       <Stack spacing={4}>
-        {_.map(posts.rows, (post) => (
-          <NextLink href={`/post/${post.id}`} passHref key={post.id}>
-            <ChakraLink
-              _hover={{
-                textDecoration: 'none',
-              }}
-            >
-              <Post.Post post={post} />
-            </ChakraLink>
-          </NextLink>
+        {sortPostComment(posts.rows, 'desc').map((post) => (
+          <Post.PostLink post={post} key={post.id} />
         ))}
       </Stack>
     </Flex>
