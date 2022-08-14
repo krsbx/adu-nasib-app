@@ -87,7 +87,7 @@ const Editor = React.forwardRef<HTMLTextAreaElement, Props>(
     );
 
     return (
-      <Stack spacing={3} overflow={'auto'} {...stackProps}>
+      <Stack spacing={1} overflow={'auto'} {...stackProps}>
         <Stack direction={'row'} spacing={5}>
           <Stack direction={'row'} spacing={1}>
             {_.includes(commandName, EDITOR_COMMANDS.HEADING) && (

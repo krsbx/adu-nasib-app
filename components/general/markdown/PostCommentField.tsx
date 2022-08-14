@@ -68,7 +68,15 @@ const PostCommentField = ({ setValue, value, placeholder, schema, onSubmit }: Pr
           {isEdit ? (
             <Markdown.Editor
               {...register('content')}
-              commandName={_.values(_.omit(EDITOR_COMMANDS, ['CODE']))}
+              commandName={_.values(
+                _.omit(EDITOR_COMMANDS, [
+                  'CODE',
+                  'STRIKETHROUGH',
+                  'UNORDERED_LIST',
+                  'CHECKED_LIST',
+                  'ORDERED_LIST',
+                ])
+              )}
               variant="filled"
               fontWeight={'semibold'}
               placeholder={placeholder}

@@ -1,10 +1,9 @@
-import { Box, Flex, Stack } from '@chakra-ui/react';
+import { Flex, Stack } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
-import { VscLoading } from 'react-icons/vsc';
 import useInfiniteScroll from 'react-infinite-scroll-hook';
 import { connect, ConnectedProps } from 'react-redux';
-import { Post } from '../../components/general';
+import { Loading, Post } from '../../components/general';
 import useFilterQuery from '../../hooks/useFilterQuery';
 import useHasNextPage from '../../hooks/useHasNextPage';
 import useLoadMoreResource from '../../hooks/useLoadMoreResource';
@@ -44,11 +43,7 @@ const PostsPage = ({ getAllData, posts }: Props) => {
         {sortPostComment(posts.rows, 'desc').map((post) => (
           <Post.PostLink post={post} key={post.id} />
         ))}
-        {(isLoading || hasNextPage) && (
-          <Box ref={sentryRef}>
-            <VscLoading />
-          </Box>
-        )}
+        {(isLoading || hasNextPage) && <Loading ref={sentryRef} />}
       </Stack>
     </Flex>
   );

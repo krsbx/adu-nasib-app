@@ -1,4 +1,4 @@
-import { Flex, Stack, Text } from '@chakra-ui/react';
+import { Stack } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { UseFormReset } from 'react-hook-form';
@@ -29,11 +29,6 @@ const CommentField = ({ addData }: Props) => {
 
   return (
     <Stack {...commentTheme} backgroundColor={cardBgColor} spacing={1}>
-      <Flex justifyContent={'center'}>
-        <Text fontSize={'md'} lineHeight={'base'} fontWeight={'bold'}>
-          Mari Adu Nasib Mu!
-        </Text>
-      </Flex>
       <Markdown.PostCommentField
         schema={commentSchema}
         value={value}
