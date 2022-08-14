@@ -14,6 +14,11 @@ const Post = ({ post }: Props) => {
   const filter = moment(post?.createdAt);
   const parseDate = (date: moment.Moment) => date.format('YYYY-MM-DD');
 
+  const filterByDate = `/posts?filters=createdAt > "${parseDate(
+    filter
+  )}" AND createdAt < "${parseDate(filter.add(1, 'd'))}"`;
+  const filterByUsername = `/posts?filters=user.username = "${post?.user?.username}"`;
+
   const { cardBgColor, cardHoverBgColor, cardTextColor } = useCardColorMode();
 
   return (
@@ -30,7 +35,7 @@ const Post = ({ post }: Props) => {
       color={cardTextColor}
     >
       <Flex gap={3} alignItems="center">
-        <NextLink href={`/posts?filters=user.username = "${post?.user?.username}"`} passHref>
+        <NextLink href={filterByUsername} passHref>
           <ChakraLink
             _hover={{
               textDecoration: 'none',
@@ -50,12 +55,7 @@ const Post = ({ post }: Props) => {
           </ChakraLink>
         </NextLink>
         <Text fontSize={'xs'}>mengadu nasib</Text>
-        <NextLink
-          href={`/posts?filters=createdAt > "${parseDate(filter)}" AND createdAt < "${parseDate(
-            filter.add(1, 'd')
-          )}"`}
-          passHref
-        >
+        <NextLink href={filterByDate} passHref>
           <ChakraLink
             _hover={{
               textDecoration: 'none',
