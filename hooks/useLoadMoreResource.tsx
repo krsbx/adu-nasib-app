@@ -9,7 +9,7 @@ const useLoadMoreResource = (resourceName: ResourceName, query = '') => {
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<unknown>();
-  const [prevQuery, setPrevQuery] = useState(query);
+  const [prevQuery, setPrevQuery] = useState('');
 
   const onLoadMore = async (pageNumber?: number, overwrite?: boolean) => {
     setIsLoading(true);
