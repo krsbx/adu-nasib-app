@@ -1,9 +1,8 @@
-import { Flex, Stack } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import useInfiniteScroll from 'react-infinite-scroll-hook';
 import { connect, ConnectedProps } from 'react-redux';
-import { Comment, Loading, Post } from '../../components/general';
+import { Comment, Loading, Post, Wrapper } from '../../components/general';
 import FieldPlaceholder from '../../components/general/placeholder/FieldPlaceholder';
 import useHasNextPage from '../../hooks/useHasNextPage';
 import useLoadMoreResource from '../../hooks/useLoadMoreResource';
@@ -44,20 +43,18 @@ const PostPage = ({ getDataById, comments }: Props) => {
   }, [router.isReady]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <Flex width={'100%'} direction={'column'} alignItems={'center'} p={5} gap={5}>
-      <Stack spacing={4}>
-        <Post.PostRead post={post} setPost={setPost} />
-        {hasFocused ? (
-          <Comment.CommentField />
-        ) : (
-          <FieldPlaceholder onClick={() => setHasFocused(true)} placeholder={PLACEHOLDER.COMMENT} />
-        )}
-        {sortPostComment(comments.rows, 'desc').map((comment) => (
-          <Comment.Comment comment={comment} key={comment.id} />
-        ))}
-        {(isLoading || hasNextPage) && <Loading ref={sentryRef} />}
-      </Stack>
-    </Flex>
+    <Wrapper>
+      <Post.PostRead post={post} setPost={setPost} />
+      {hasFocused ? (
+        <Comment.CommentField />
+      ) : (
+        <FieldPlaceholder onClick={() => setHasFocused(true)} placeholder={PLACEHOLDER.COMMENT} />
+      )}
+      {sortPostComment(comments.rows, 'desc').map((comment) => (
+        <Comment.Comment comment={comment} key={comment.id} />
+      ))}
+      {(isLoading || hasNextPage) && <Loading ref={sentryRef} />}
+    </Wrapper>
   );
 };
 

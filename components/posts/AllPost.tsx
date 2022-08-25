@@ -9,7 +9,7 @@ import { Post } from '../general';
 
 const AllPost = ({ posts }: Props) => {
   return (
-    <Flex width={'100%'} direction={'column'} alignItems={'center'} p={5} gap={5}>
+    <Flex width={'100%'} direction={'column'} alignItems={'center'} p={3} gap={5}>
       <Stack spacing={4}>
         {sortPostComment(posts.rows, 'desc').map((post) => (
           <Post.PostLink post={post} key={post.id} />

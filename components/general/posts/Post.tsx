@@ -6,6 +6,7 @@ import React from 'react';
 import { FaRetweet } from 'react-icons/fa';
 import { Markdown } from '..';
 import useCardColorMode from '../../../hooks/useCardColorMode';
+import useCardShadow from '../../../hooks/useCardShadow';
 import { RESOURCE_NAME } from '../../../utils/constant';
 import { ResourceMap } from '../../../utils/interfaces';
 import { postTheme } from '../../../utils/theme';
@@ -20,6 +21,7 @@ const Post = ({ post }: Props) => {
   )}" AND createdAt < "${parseDate(filter.add(1, 'd'))}"`;
   const filterByUsername = `/posts?filters=user.username = "${post?.user?.username}"`;
 
+  const boxShadowColor = useCardShadow();
   const { cardBgColor, cardHoverBgColor, cardTextColor } = useCardColorMode();
 
   return (
@@ -28,7 +30,7 @@ const Post = ({ post }: Props) => {
       backgroundColor={cardBgColor}
       _hover={{
         bg: cardHoverBgColor,
-        boxShadow: `0px 25px 50px rgba(0, 0, 0, 0.4)`,
+        boxShadow: boxShadowColor,
         minHeight: '150px',
         maxHeight: '175px',
       }}

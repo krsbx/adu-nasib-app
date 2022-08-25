@@ -1,9 +1,8 @@
-import { Flex, Stack } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import useInfiniteScroll from 'react-infinite-scroll-hook';
 import { connect, ConnectedProps } from 'react-redux';
-import { Loading, Post } from '../../components/general';
+import { Loading, Post, Wrapper } from '../../components/general';
 import useFilterQuery from '../../hooks/useFilterQuery';
 import useHasNextPage from '../../hooks/useHasNextPage';
 import useLoadMoreResource from '../../hooks/useLoadMoreResource';
@@ -38,14 +37,12 @@ const PostsPage = ({ getAllData, posts }: Props) => {
   }, [router.isReady]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <Flex width={'100%'} direction={'column'} alignItems={'center'} p={5} gap={5}>
-      <Stack spacing={4}>
-        {sortPostComment(posts.rows, 'desc').map((post) => (
-          <Post.PostLink post={post} key={post.id} />
-        ))}
-        {(isLoading || hasNextPage) && <Loading ref={sentryRef} />}
-      </Stack>
-    </Flex>
+    <Wrapper>
+      {sortPostComment(posts.rows, 'desc').map((post) => (
+        <Post.PostLink post={post} key={post.id} />
+      ))}
+      {(isLoading || hasNextPage) && <Loading ref={sentryRef} />}
+    </Wrapper>
   );
 };
 

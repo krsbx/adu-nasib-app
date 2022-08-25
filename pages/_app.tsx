@@ -1,5 +1,6 @@
 import { ChakraProvider } from '@chakra-ui/react';
 import type { AppProps } from 'next/app';
+import Head from 'next/head';
 import { Provider as ReduxProvider } from 'react-redux';
 import MainLayout from '../components/layout/MainLayout';
 import reduxStore from '../store';
@@ -10,6 +11,9 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ReduxProvider store={reduxStore}>
       <ChakraProvider theme={customTheme}>
+        <Head>
+          <title>Adu Nasib</title>
+        </Head>
         <MainLayout>
           <Component {...pageProps} />
         </MainLayout>
