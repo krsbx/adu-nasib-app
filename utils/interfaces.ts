@@ -20,6 +20,7 @@ export type User = {
   password: string;
   role: UserRole;
   profile?: Profile;
+  createdAt: string;
 };
 
 export type Post = {

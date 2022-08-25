@@ -6,7 +6,7 @@ import Post from './Post';
 
 const PostLink = ({ post }: Props) => {
   return (
-    <NextLink href={`/post/${post.id}`} passHref key={post.id}>
+    <NextLink href={`/post/${post.id}`} passHref>
       <ChakraLink
         _hover={{
           textDecoration: 'none',

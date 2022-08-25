@@ -1,4 +1,4 @@
-import { BoxProps, extendTheme, ThemeConfig } from '@chakra-ui/react';
+import { BoxProps, extendTheme, StyleFunctionProps, ThemeConfig } from '@chakra-ui/react';
 
 const config: ThemeConfig = {
   initialColorMode: 'dark',
@@ -9,7 +9,21 @@ const fonts = {
   body: "'Ubuntu', sans-serif",
 };
 
-const theme = extendTheme({ config, fonts });
+const components = {
+  Textarea: {
+    variants: {
+      filled: (props: StyleFunctionProps) => ({
+        transition: 'all 0.3s ease-in-out',
+        bgColor: props.colorMode === 'light' ? 'gray.100' : 'whiteAlpha.100',
+        _hover: {
+          bgColor: props.colorMode === 'light' ? 'whiteAlpha.700' : 'whiteAlpha.200',
+        },
+      }),
+    },
+  },
+};
+
+const theme = extendTheme({ config, fonts, components });
 
 export const postTheme: BoxProps = {
   width: { base: 'sm', md: 'md' },

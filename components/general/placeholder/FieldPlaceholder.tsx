@@ -12,6 +12,7 @@ const FieldPlaceholder = ({ onClick, placeholder }: Props) => {
         fontWeight={'semibold'}
         onClick={onClick}
         variant="filled"
+        transition="all 0.3s ease-in-out"
       />
     </Stack>
   );

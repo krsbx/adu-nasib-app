@@ -43,6 +43,7 @@ const Topbar = ({ currentUser }: Props) => {
     register,
     handleSubmit,
     formState: { isSubmitting },
+    setValue,
   } = useForm<Schema>({
     resolver: zodResolver(searchSchema),
   });
@@ -51,7 +52,13 @@ const Topbar = ({ currentUser }: Props) => {
     if (!router.isReady) return;
 
     setIsAuth(cookieUtils.isAuthenticated());
-  }, [router.isReady, currentUser]);
+    setValue(
+      'keyword',
+      Array.isArray(router.query?.keyword)
+        ? (router.query?.keyword ?? []).join('&')
+        : router.query?.keyword ?? ''
+    );
+  }, [router.isReady, currentUser]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const colorToggleColor = useColorModeValue('gray.500', 'gray.300');
   const { isOpen: isLoginOpen, onOpen: onLoginOpen, onClose: onLoginClose } = useDisclosure();
@@ -67,9 +74,7 @@ const Topbar = ({ currentUser }: Props) => {
     onRegisterOpen();
   };
 
-  const onSubmit = (value: Schema) => {
-    router.push(`/search?keyword=${value.keyword}`);
-  };
+  const onSubmit = (value: Schema) => router.push(`/search?keyword=${value.keyword}`);
 
   return (
     <Flex

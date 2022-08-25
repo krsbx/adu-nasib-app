@@ -8,10 +8,12 @@ import { CURRENT_USER_ACTION } from '../reducers/currentUser';
 
 export const loginUser =
   (payload: Pick<User, 'email' | 'password'>) => async (dispatch: AppDispatch) => {
-    const { data: loginRes } = await axios.post<{ id: number; token: string }>('/auth/login', {
-      ...payload,
-      always: true,
-    });
+    Object.assign(payload, { always: true });
+
+    const { data: loginRes } = await axios.post<{ id: number; token: string }>(
+      '/auth/login',
+      payload
+    );
 
     cookieUtils.setToken(loginRes.token);
     cookieUtils.setUserId(loginRes.id);
