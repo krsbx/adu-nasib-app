@@ -1,0 +1,81 @@
+name: deployment
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  cleanup:
+    name: 'Prepare server for deployment'
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: clean up data
+        uses: appleboy/ssh-action@v0.1.4
+        with:
+          host: ${{ secrets.CLOUD_HOST }}
+          username: adu-nasib
+          password: ${{ secrets.ROOT_PASSWORD }}
+          script: |
+            rm -rf ~/adu-nasib/release.zip
+
+  build:
+    name: 'Build frontend assets'
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs: cleanup
+    steps:
+      - name: checkout main
+        uses: actions/checkout@v3
+        with:
+          ref: main
+
+      - name: install node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Create env file
+        run: |
+          touch .env
+          echo "NEXT_PUBLIC_API_URL=${{ secrets.API_URL }}" > .env
+
+      - name: build frontend assets
+        run: npm install && npm run build
+
+      - name: compress artifact
+        run: zip release.zip ./.next -r
+
+      - name: upload to server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.CLOUD_HOST }}
+          username: adu-nasib
+          password: ${{ secrets.ROOT_PASSWORD }}
+          source: ./release.zip
+          target: '~/adu-nasib'
+
+  deploy:
+    name: 'Deploy to Productions'
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: deploy
+        uses: appleboy/ssh-action@v0.1.4
+        with:
+          host: ${{ secrets.CLOUD_HOST }}
+          username: adu-nasib
+          password: ${{ secrets.ROOT_PASSWORD }}
+          script: |
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh
+            node --version
+            pwd
+            pm2 stop all && pm2 delete all
+            cd adu-nasib && git fetch && git reset --hard origin/main
+            npm install
+            rm -rf ~/adu-nasib/.next && echo ".next directory removed."
+            unzip -o ~/adu-nasib/release.zip -d ~/adu-nasib
+            cd ~
+            pm2 start ecosystem.config.js
