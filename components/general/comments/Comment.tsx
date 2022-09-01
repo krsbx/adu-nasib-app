@@ -1,7 +1,8 @@
-import { Box, Button, Flex, Link as ChakraLink, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Link as ChakraLink, Stack, Text } from '@chakra-ui/react';
 import moment from 'moment';
 import NextLink from 'next/link';
 import React, { createRef, useEffect, useMemo, useState } from 'react';
+import { AiFillDislike, AiFillLike, AiOutlineDislike, AiOutlineLike } from 'react-icons/ai';
 import { MdEdit } from 'react-icons/md';
 import { connect, ConnectedProps } from 'react-redux';
 import { Markdown } from '..';
@@ -9,13 +10,17 @@ import useCardColorMode from '../../../hooks/useCardColorMode';
 import useCurrentUserId from '../../../hooks/useCurrentUserId';
 import useIsHoveringElement from '../../../hooks/useIsHoveringElement';
 import useOnClickOutside from '../../../hooks/useOnClickOutside';
-import { updateData } from '../../../store/actions/resources';
+import {
+  dislikeResource as _dislikeResource,
+  likeResource as _likeResource,
+  updateData,
+} from '../../../store/actions/resources';
 import { PLACEHOLDER, RESOURCE_NAME } from '../../../utils/constant';
 import { Comment } from '../../../utils/interfaces';
 import { commentSchema } from '../../../utils/schema';
-import { commentTheme } from '../../../utils/theme';
+import { cardInformationTheme, commentTheme } from '../../../utils/theme';
 
-const Comment = ({ comment, updateComment }: Props) => {
+const Comment = ({ comment, updateComment, likeResource, dislikeResource }: Props) => {
   const createdAt = moment(comment?.createdAt).format('DD MMMM YYYY');
   const filter = moment(comment?.createdAt);
   const parseDate = (date: moment.Moment) => date.format('YYYY-MM-DD');
@@ -49,6 +54,18 @@ const Comment = ({ comment, updateComment }: Props) => {
 
     await updateComment(comment?.id, values);
     setIsEdit(false);
+  };
+
+  const likeComment = async () => {
+    if (!comment) return;
+
+    await likeResource(RESOURCE_NAME.COMMENT, comment?.id);
+  };
+
+  const dislikeComment = async () => {
+    if (!comment) return;
+
+    await dislikeResource(RESOURCE_NAME.COMMENT, comment?.id);
   };
 
   return (
@@ -121,12 +138,34 @@ const Comment = ({ comment, updateComment }: Props) => {
       ) : (
         <Markdown.Preview value={comment?.content ?? ''} />
       )}
+      {!isEdit && (
+        <Stack {...cardInformationTheme} spacing={10} justifyContent={'center'}>
+          <Button variant={'ghost'} onClick={likeComment}>
+            <Stack {...cardInformationTheme}>
+              {comment?.isLiked ? <AiFillLike size={'1rem'} /> : <AiOutlineLike size={'1rem'} />}
+              <Text fontSize={'sm'}>{comment?.likes}</Text>
+            </Stack>
+          </Button>
+          <Button variant={'ghost'} onClick={dislikeComment}>
+            <Stack {...cardInformationTheme}>
+              {comment?.isDisliked ? (
+                <AiFillDislike size={'1rem'} />
+              ) : (
+                <AiOutlineDislike size={'1rem'} />
+              )}
+              <Text fontSize={'sm'}>{comment?.dislikes}</Text>
+            </Stack>
+          </Button>
+        </Stack>
+      )}
     </Box>
   );
 };
 
 const connector = connect(null, {
   updateComment: updateData(RESOURCE_NAME.COMMENT),
+  likeResource: _likeResource,
+  dislikeResource: _dislikeResource,
 });
 
 type Props = ConnectedProps<typeof connector> & {

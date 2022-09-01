@@ -23,25 +23,30 @@ export type User = {
   createdAt: string;
 };
 
-export type Post = {
+export type LikeDislike = {
+  isLiked: boolean;
+  isDisliked: boolean;
+  likes: number;
+  dislikes: number;
+};
+
+export type Post = LikeDislike & {
   id: number;
   content: string;
   userId: number;
   createdAt: string;
   updatedAt: string;
-  likes: number;
   replies: number;
   user?: User;
 };
 
-export type Comment = {
+export type Comment = LikeDislike & {
   id: number;
   content: string;
   postId: number;
   userId: number;
   createdAt: string;
   updatedAt: string;
-  likes: number;
   user?: User;
 };
 

@@ -1,4 +1,10 @@
-import { BoxProps, extendTheme, StyleFunctionProps, ThemeConfig } from '@chakra-ui/react';
+import {
+  BoxProps,
+  extendTheme,
+  StackProps,
+  StyleFunctionProps,
+  ThemeConfig,
+} from '@chakra-ui/react';
 
 const config: ThemeConfig = {
   initialColorMode: 'dark',
@@ -34,7 +40,7 @@ export const postTheme: BoxProps = {
   overflow: 'hidden',
   transition: 'all 0.3s ease-in-out',
   minWidth: '100%',
-  minHeight: '75px',
+  minHeight: '125px',
 };
 
 export const commentTheme: BoxProps = {
@@ -47,6 +53,13 @@ export const commentTheme: BoxProps = {
   transition: 'all 0.3s ease-in-out',
   minWidth: '100%',
   minHeight: '75px',
+};
+
+export const cardInformationTheme: StackProps = {
+  direction: 'row',
+  spacing: 2,
+  alignItems: 'center',
+  fontWeight: 'bold',
 };
 
 export default theme;
