@@ -17,7 +17,7 @@ jobs:
           username: adu-nasib
           password: ${{ secrets.ROOT_PASSWORD }}
           script: |
-            rm -rf ~/adu-nasib/release.zip
+            rm -rf ~/adu-nasib-app/release.zip
 
   build:
     name: 'Build frontend assets'
@@ -53,7 +53,7 @@ jobs:
           username: adu-nasib
           password: ${{ secrets.ROOT_PASSWORD }}
           source: ./release.zip
-          target: '~/adu-nasib'
+          target: '~/adu-nasib-app'
 
   deploy:
     name: 'Deploy to Productions'
@@ -74,9 +74,9 @@ jobs:
             node --version
             pwd
             pm2 stop all && pm2 delete all
-            cd adu-nasib && git fetch && git reset --hard origin/main
+            cd adu-nasib-app && git fetch && git reset --hard origin/main
             npm install
-            rm -rf ~/adu-nasib/.next && echo ".next directory removed."
-            unzip -o ~/adu-nasib/release.zip -d ~/adu-nasib
+            rm -rf ~/adu-nasib-app/.next && echo ".next directory removed."
+            unzip -o ~/adu-nasib-app/release.zip -d ~/adu-nasib-app
             cd ~
             pm2 start ecosystem.config.js
