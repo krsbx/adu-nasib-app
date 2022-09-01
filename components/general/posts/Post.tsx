@@ -1,17 +1,22 @@
-import { Box, Flex, Link as ChakraLink, Stack, Text } from '@chakra-ui/react';
+import { Box, Flex, Link as ChakraLink, Stack, Text, useColorModeValue } from '@chakra-ui/react';
 import _ from 'lodash';
 import moment from 'moment';
 import NextLink from 'next/link';
-import React from 'react';
+import React, { createRef, useState } from 'react';
+import { AiFillDislike, AiFillLike, AiOutlineDislike, AiOutlineLike } from 'react-icons/ai';
 import { FaRetweet } from 'react-icons/fa';
 import { Markdown } from '..';
 import useCardColorMode from '../../../hooks/useCardColorMode';
 import useCardShadow from '../../../hooks/useCardShadow';
+import useOnHover from '../../../hooks/useOnHover';
 import { RESOURCE_NAME } from '../../../utils/constant';
 import { ResourceMap } from '../../../utils/interfaces';
-import { postTheme } from '../../../utils/theme';
+import { cardInformationTheme, postTheme } from '../../../utils/theme';
 
 const Post = ({ post }: Props) => {
+  const cardRef = createRef<HTMLDivElement>();
+  const [isOnHover, setIsOnHover] = useState(false);
+
   const createdAt = moment(post?.createdAt).format('DD MMMM YYYY');
   const filter = moment(post?.createdAt);
   const parseDate = (date: moment.Moment) => date.format('YYYY-MM-DD');
@@ -22,7 +27,14 @@ const Post = ({ post }: Props) => {
   const filterByUsername = `/posts?filters=user.username = "${post?.user?.username}"`;
 
   const boxShadowColor = useCardShadow();
+  const statusHoverBgColor = useColorModeValue('gray.200', 'gray.900');
   const { cardBgColor, cardHoverBgColor, cardTextColor } = useCardColorMode();
+
+  useOnHover(
+    cardRef,
+    () => setIsOnHover(true),
+    () => setIsOnHover(false)
+  );
 
   return (
     <Box
@@ -34,14 +46,12 @@ const Post = ({ post }: Props) => {
         minHeight: '150px',
         maxHeight: '175px',
       }}
-      maxHeight={'100px'}
+      maxHeight={'150px'}
       color={cardTextColor}
+      position={'relative'}
+      ref={cardRef}
     >
       <Flex gap={3} alignItems="center">
-        <Stack direction={'row'} spacing={1} alignItems={'center'} fontWeight={'bold'}>
-          <FaRetweet size={'20px'} />
-          <Text fontSize={'sm'}>{post?.replies}</Text>
-        </Stack>
         <NextLink href={filterByUsername} passHref>
           <ChakraLink
             _hover={{
@@ -92,6 +102,35 @@ const Post = ({ post }: Props) => {
           ),
         }}
       />
+      <Flex
+        position={'absolute'}
+        {...(isOnHover ? { background: statusHoverBgColor } : { background: cardBgColor })}
+        width={'100%'}
+        justifyContent={'center'}
+        transition="all 0.3s ease-in-out"
+        bottom={0}
+        left={0}
+        p={2}
+      >
+        <Stack {...cardInformationTheme} spacing={5}>
+          <Stack {...cardInformationTheme}>
+            {post?.isLiked ? <AiFillLike size={'1rem'} /> : <AiOutlineLike size={'1rem'} />}
+            <Text fontSize={'sm'}>{post?.likes}</Text>
+          </Stack>
+          <Stack {...cardInformationTheme}>
+            <FaRetweet size={'1rem'} />
+            <Text fontSize={'sm'}>{post?.replies}</Text>
+          </Stack>
+          <Stack {...cardInformationTheme}>
+            {post?.isDisliked ? (
+              <AiFillDislike size={'1rem'} />
+            ) : (
+              <AiOutlineDislike size={'1rem'} />
+            )}
+            <Text fontSize={'sm'}>{post?.dislikes}</Text>
+          </Stack>
+        </Stack>
+      </Flex>
     </Box>
   );
 };

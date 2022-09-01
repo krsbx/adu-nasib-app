@@ -11,7 +11,7 @@ const defaultState = {
 
 export type Payload<K> = {
   id: number;
-  data: K;
+  data: K | Partial<K>;
 };
 
 export type Payloads<T extends ResourceName> = ResourceStructure<T>;

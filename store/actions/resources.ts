@@ -1,5 +1,5 @@
 import { AppDispatch } from '..';
-import { ResourceMap, ResourceName } from '../../utils/interfaces';
+import { LikeDislike, ResourceMap, ResourceName } from '../../utils/interfaces';
 import axios from '../axios';
 import { Payload, Payloads } from '../reducers/resources';
 
@@ -93,4 +93,34 @@ export const deleteData =
     await axios.delete(`/${resourceName}/${id}`);
 
     dispatch(deleteResource(resourceName, id));
+  };
+
+export const likeResource =
+  <T extends Extract<ResourceName, 'posts' | 'comments'>>(resourceName: T, id: number) =>
+  async (dispatch: AppDispatch) => {
+    const { data } = await axios.post<LikeDislike>(`/${resourceName}/${id}/like`);
+
+    dispatch(
+      updateResource(resourceName, {
+        id,
+        data: data as Partial<ResourceMap[T]>,
+      })
+    );
+
+    return data;
+  };
+
+export const dislikeResource =
+  <T extends Extract<ResourceName, 'posts' | 'comments'>>(resourceName: T, id: number) =>
+  async (dispatch: AppDispatch) => {
+    const { data } = await axios.post<LikeDislike>(`/${resourceName}/${id}/dislike`);
+
+    dispatch(
+      updateResource(resourceName, {
+        id,
+        data: data as Partial<ResourceMap[T]>,
+      })
+    );
+
+    return data;
   };

@@ -2,6 +2,7 @@ import { Box, Button, Flex, Link as ChakraLink, Stack, Text } from '@chakra-ui/r
 import moment from 'moment';
 import NextLink from 'next/link';
 import React, { createRef, useEffect, useMemo, useState } from 'react';
+import { AiFillDislike, AiFillLike, AiOutlineDislike, AiOutlineLike } from 'react-icons/ai';
 import { FaRetweet } from 'react-icons/fa';
 import { MdEdit } from 'react-icons/md';
 import { connect, ConnectedProps } from 'react-redux';
@@ -10,13 +11,17 @@ import useCardColorMode from '../../../hooks/useCardColorMode';
 import useCurrentUserId from '../../../hooks/useCurrentUserId';
 import useIsHoveringElement from '../../../hooks/useIsHoveringElement';
 import useOnClickOutside from '../../../hooks/useOnClickOutside';
-import { updateData } from '../../../store/actions/resources';
+import {
+  dislikeResource as _dislikeResource,
+  likeResource as _likeResource,
+  updateData,
+} from '../../../store/actions/resources';
 import { PLACEHOLDER, RESOURCE_NAME } from '../../../utils/constant';
 import { Post, ReactSetter } from '../../../utils/interfaces';
 import { postSchema } from '../../../utils/schema';
-import { postTheme } from '../../../utils/theme';
+import { cardInformationTheme, postTheme } from '../../../utils/theme';
 
-const PostRead = ({ post, setPost, updatePost }: Props) => {
+const PostRead = ({ post, setPost, updatePost, dislikeResource, likeResource }: Props) => {
   const createdAt = moment(post?.createdAt).format('DD MMMM YYYY');
   const filter = moment(post?.createdAt);
   const parseDate = (date: moment.Moment) => date.format('YYYY-MM-DD');
@@ -57,20 +62,33 @@ const PostRead = ({ post, setPost, updatePost }: Props) => {
     setIsEdit(false);
   };
 
+  const likePost = async () => {
+    if (!post) return;
+
+    const result = await likeResource(RESOURCE_NAME.POST, post?.id);
+
+    setPost((curr) => ({
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      ...curr!,
+      ...result,
+    }));
+  };
+
+  const dislikePost = async () => {
+    if (!post) return;
+
+    const result = await dislikeResource(RESOURCE_NAME.POST, post?.id);
+
+    setPost((curr) => ({
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      ...curr!,
+      ...result,
+    }));
+  };
+
   return (
     <Box {...postTheme} backgroundColor={cardBgColor} color={cardTextColor} ref={cardRef}>
       <Flex gap={3} alignItems="center" position={'relative'} mb={2}>
-        <Stack
-          direction={'row'}
-          spacing={1}
-          alignItems={'center'}
-          justifyContent={'center'}
-          fontWeight={'bold'}
-          userSelect={'none'}
-        >
-          <FaRetweet size={'20px'} />
-          <Text fontSize={'sm'}>{post?.replies}</Text>
-        </Stack>
         <NextLink href={filterByUsername} passHref>
           <ChakraLink
             _hover={{
@@ -133,12 +151,38 @@ const PostRead = ({ post, setPost, updatePost }: Props) => {
       ) : (
         <Markdown.Preview value={post?.content ?? ''} />
       )}
+      {!isEdit && (
+        <Stack {...cardInformationTheme} spacing={10} justifyContent={'center'}>
+          <Button variant={'ghost'} onClick={likePost}>
+            <Stack {...cardInformationTheme}>
+              {post?.isLiked ? <AiFillLike size={'1rem'} /> : <AiOutlineLike size={'1rem'} />}
+              <Text fontSize={'sm'}>{post?.likes}</Text>
+            </Stack>
+          </Button>
+          <Stack {...cardInformationTheme}>
+            <FaRetweet size={'1rem'} />
+            <Text fontSize={'sm'}>{post?.replies}</Text>
+          </Stack>
+          <Button variant={'ghost'} onClick={dislikePost}>
+            <Stack {...cardInformationTheme}>
+              {post?.isDisliked ? (
+                <AiFillDislike size={'1rem'} />
+              ) : (
+                <AiOutlineDislike size={'1rem'} />
+              )}
+              <Text fontSize={'sm'}>{post?.dislikes}</Text>
+            </Stack>
+          </Button>
+        </Stack>
+      )}
     </Box>
   );
 };
 
 const connector = connect(null, {
   updatePost: updateData(RESOURCE_NAME.POST),
+  likeResource: _likeResource,
+  dislikeResource: _dislikeResource,
 });
 
 type Props = ConnectedProps<typeof connector> & {
