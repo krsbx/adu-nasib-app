@@ -140,7 +140,7 @@ const Topbar = ({ currentUser }: Props) => {
           </Stack>
         </GridItem>
       </Grid>
-      <LoginModal isOpen={isLoginOpen} onClose={onLoginClose} />
+      <LoginModal isOpen={isLoginOpen} onClose={onLoginClose} onRegisterOpen={onRegisterOpen} />
       <RegisterModal isOpen={isRegisterOpen} onClose={onRegisterClose} onLoginOpen={onLoginOpen} />
     </Flex>
   );
