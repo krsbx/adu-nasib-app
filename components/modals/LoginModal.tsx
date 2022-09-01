@@ -28,7 +28,7 @@ import { loginSchema } from '../../utils/schema';
 
 type Schema = Pick<User, 'email' | 'password'>;
 
-const LoginModal = ({ isOpen, onClose, loginUser }: Props) => {
+const LoginModal = ({ isOpen, onClose, loginUser, onRegisterOpen }: Props) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const {
     register,
@@ -100,6 +100,23 @@ const LoginModal = ({ isOpen, onClose, loginUser }: Props) => {
               <Button disabled={isSubmitting} isLoading={isSubmitting} type={'submit'}>
                 Adu Nasib!
               </Button>
+              <Flex alignItems="center" justifyContent="center" gap={4} px={3}>
+                <Text fontSize={'xs'}>Belum punya akun?</Text>
+                <Text
+                  fontSize={'xs'}
+                  cursor={'pointer'}
+                  textDecoration={'underline'}
+                  _hover={{
+                    color: 'blue.500',
+                  }}
+                  onClick={() => {
+                    onClose();
+                    onRegisterOpen();
+                  }}
+                >
+                  Daftar
+                </Text>
+              </Flex>
             </Stack>
           </form>
         </ModalBody>
@@ -115,6 +132,7 @@ const connector = connect(null, {
 type Props = ConnectedProps<typeof connector> & {
   isOpen: boolean;
   onClose: () => void;
+  onRegisterOpen: () => void;
 };
 
 export default connector(LoginModal);

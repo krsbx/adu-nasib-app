@@ -6,7 +6,7 @@ const MainLayout = ({ children }: Props) => {
   return (
     <Box height={'100vh'} width={'100vw'} p={3} overflow={'hidden'}>
       <Topbar />
-      <Box height={`calc(100vh - 50.5px)`} overflowY={'auto'}>
+      <Box height={`calc(100vh - 50.5px)`} overflowY={'auto'} pb={3}>
         {children}
       </Box>
     </Box>
