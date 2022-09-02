@@ -3,7 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import _ from 'lodash';
 import React, { useState } from 'react';
 import { useForm, UseFormReset } from 'react-hook-form';
-import { Markdown } from '..';
+import { Form, Markdown } from '..';
 import useCardColorMode from '../../../hooks/useCardColorMode';
 import useFieldButtonColorMode from '../../../hooks/useFieldButtonColorMode';
 import { ReactSetter } from '../../../utils/interfaces';
@@ -63,7 +63,7 @@ const PostCommentField = ({ setValue, value, placeholder, schema, onSubmit }: Pr
           Preview
         </Button>
       </Stack>
-      <form onSubmit={handleSubmit(onFormSubmit)}>
+      <Form onSubmit={handleSubmit(onFormSubmit)}>
         <Stack spacing={3}>
           {isEdit ? (
             <Markdown.Editor
@@ -95,7 +95,7 @@ const PostCommentField = ({ setValue, value, placeholder, schema, onSubmit }: Pr
             Adu Nasib!
           </Button>
         </Stack>
-      </form>
+      </Form>
     </Stack>
   );
 };

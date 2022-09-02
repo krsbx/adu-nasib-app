@@ -3,7 +3,11 @@ import { Post, Wrapper } from '../../components/general';
 
 const CreatePostPage = () => {
   return (
-    <Wrapper>
+    <Wrapper
+      stackProps={{
+        width: { base: '100%', sm: 'auto' },
+      }}
+    >
       <Post.PostField />
     </Wrapper>
   );

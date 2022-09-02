@@ -73,10 +73,10 @@ jobs:
             source ~/.nvm/nvm.sh
             node --version
             pwd
-            pm2 stop all && pm2 delete all
+            pm2 stop app && pm2 reset app
             cd adu-nasib-app && git fetch && git reset --hard origin/main
             npm install
             rm -rf ~/adu-nasib-app/.next && echo ".next directory removed."
             unzip -o ~/adu-nasib-app/release.zip -d ~/adu-nasib-app
             cd ~
-            pm2 start ecosystem.config.js
+            pm2 start app

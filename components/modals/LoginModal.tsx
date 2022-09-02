@@ -25,6 +25,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import { loginUser as _loginUser } from '../../store/actions/currentUser';
 import { User } from '../../utils/interfaces';
 import { loginSchema } from '../../utils/schema';
+import { Form } from '../general';
 
 type Schema = Pick<User, 'email' | 'password'>;
 
@@ -63,7 +64,7 @@ const LoginModal = ({ isOpen, onClose, loginUser, onRegisterOpen }: Props) => {
           <ModalCloseButton />
         </ModalHeader>
         <ModalBody>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <Form onSubmit={handleSubmit(onSubmit)}>
             <Stack spacing={5}>
               <FormControl isInvalid={!!errors?.email?.message && !!touched?.email}>
                 <FormLabel htmlFor="email">Email</FormLabel>
@@ -118,7 +119,7 @@ const LoginModal = ({ isOpen, onClose, loginUser, onRegisterOpen }: Props) => {
                 </Text>
               </Flex>
             </Stack>
-          </form>
+          </Form>
         </ModalBody>
       </ModalContent>
     </Modal>
