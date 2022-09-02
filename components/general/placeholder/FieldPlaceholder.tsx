@@ -13,6 +13,7 @@ const FieldPlaceholder = ({ onClick, placeholder }: Props) => {
         onClick={onClick}
         variant="filled"
         transition="all 0.3s ease-in-out"
+        width={'100%'}
       />
     </Stack>
   );

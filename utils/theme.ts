@@ -32,7 +32,7 @@ const components = {
 const theme = extendTheme({ config, fonts, components });
 
 export const postTheme: BoxProps = {
-  width: { base: 'sm', md: 'md' },
+  width: { base: 'base', sm: 'md' },
   p: 3,
   borderRadius: 'md',
   gap: 3,
@@ -44,14 +44,7 @@ export const postTheme: BoxProps = {
 };
 
 export const commentTheme: BoxProps = {
-  width: { base: 'sm', md: 'md' },
-  p: 3,
-  borderRadius: 'md',
-  gap: 3,
-  boxShadow: 'md',
-  overflow: 'hidden',
-  transition: 'all 0.3s ease-in-out',
-  minWidth: '100%',
+  ...postTheme,
   minHeight: '75px',
 };
 

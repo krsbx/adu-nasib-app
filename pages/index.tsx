@@ -26,7 +26,11 @@ const HomePage = ({ currentUser }: Props) => {
   return (
     <Box>
       {isAuth && (
-        <Wrapper>
+        <Wrapper
+          stackProps={{
+            width: { base: '100%', sm: 'auto' },
+          }}
+        >
           {hasFocused ? (
             <Post.PostField />
           ) : (
