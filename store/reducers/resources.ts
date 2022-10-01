@@ -64,7 +64,12 @@ const reducer =
         return temp;
 
       case `resources.${resourceName}.overwrite`:
-        if (!hasOwnProperty(action.data, 'rows') || _.isNumber(action.data)) return state;
+        if (
+          !hasOwnProperty(action.data, 'rows') ||
+          !hasOwnProperty(action.data, 'count') ||
+          _.isNumber(action.data)
+        )
+          return state;
 
         // eslint-disable-next-line no-case-declarations
         const data1 = _.isArray(action.data.rows) ? action.data.rows : [action.data.rows];
